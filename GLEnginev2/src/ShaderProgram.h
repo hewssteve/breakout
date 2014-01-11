@@ -20,7 +20,7 @@ class ShaderProgram
     ShaderProgram();
     ~ShaderProgram();
 
-    GLuint getID() const;
+    GLuint getID(void) const;
 
     bool link(const std::vector<Shader>& shaders);
     bool isLinkOK(void) const;

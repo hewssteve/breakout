@@ -56,10 +56,9 @@ bool Shader::compile()
   glGetShaderiv(m_id, GL_COMPILE_STATUS, &compile_status);
   if (compile_status == GL_FALSE)
   {
-    GLchar* info_log;
     GLint info_log_len;
     glGetShaderiv(m_id, GL_INFO_LOG_LENGTH, &info_log_len);
-    info_log = new GLchar[info_log_len + 1];
+    GLchar* info_log = new GLchar[info_log_len + 1];
     glGetShaderInfoLog(m_id, info_log_len, NULL, info_log);
     m_compile_log = info_log;
     delete info_log;

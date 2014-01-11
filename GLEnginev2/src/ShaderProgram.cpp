@@ -6,6 +6,11 @@ ShaderProgram::ShaderProgram()
   _isLinked = false;
 }
 
+ShaderProgram::~ShaderProgram()
+{
+  glDeleteProgram(_id);
+}
+
 GLuint ShaderProgram::getID() const
 {
   return _id;
@@ -13,7 +18,6 @@ GLuint ShaderProgram::getID() const
 
 bool ShaderProgram::link(const std::vector<Shader>& shaders)
 {
-
   std::vector<Shader>::const_iterator i;
   for (i = shaders.begin(); i != shaders.end(); i++)
   {
@@ -26,15 +30,13 @@ bool ShaderProgram::link(const std::vector<Shader>& shaders)
 
   if (link_status == GL_FALSE)
   {
-
     GLint info_log_len;
     glGetProgramiv(_id, GL_INFO_LOG_LENGTH, &info_log_len);
-
     GLchar* info_log = new GLchar[info_log_len + 1];
     glGetProgramInfoLog(_id, info_log_len, NULL, info_log);
     _link_log = info_log;
     delete info_log;
-    return info_log;
+    return false;
   }
   _isLinked = true;
   return true;
@@ -88,10 +90,5 @@ void ShaderProgram::uniform2f(GLuint location, const glm::vec2& vec) const
 void ShaderProgram::uniform1f(GLuint location, float f) const
 {
   glUniform1f(location, f);
-}
-
-ShaderProgram::~ShaderProgram()
-{
-  glDeleteProgram(_id);
 }
 

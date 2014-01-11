@@ -147,8 +147,6 @@ void initShaders()
   shaders.push_back(v_shader);
   shaders.push_back(f_shader);
 
-
-
   if (!program.link(shaders))
   {
     std::cout << "=======================================" << std::endl;
@@ -192,7 +190,7 @@ void display()
   glBindVertexArray(terrain.getID());
 
   glDrawElements(terrain.getPrimitive(), terrain.getIndexCount(),
-      GL_UNSIGNED_SHORT, 0);
+  GL_UNSIGNED_SHORT, 0);
 
   glBindVertexArray(0);
 
@@ -222,8 +220,8 @@ void keyDown(SDL_Keycode key)
 {
   switch (key)
   {
-  default:
-    break;
+    default:
+      break;
   }
 }
 
@@ -231,8 +229,8 @@ void keyUp(SDL_Keycode key)
 {
   switch (key)
   {
-  default:
-    break;
+    default:
+      break;
   }
 }
 
@@ -240,13 +238,13 @@ void event(SDL_Event *event)
 {
   switch (event->type)
   {
-  case SDL_KEYDOWN:
-    keyDown(event->key.keysym.sym);
-    break;
-  case SDL_KEYUP:
-    keyUp(event->key.keysym.sym);
-    break;
-  default:
-    break;
+    case SDL_KEYDOWN:
+      keyDown(event->key.keysym.sym);
+      break;
+    case SDL_KEYUP:
+      keyUp(event->key.keysym.sym);
+      break;
+    default:
+      break;
   }
 }

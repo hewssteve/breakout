@@ -87,19 +87,19 @@ int main(int argc, char *argv[])
     {
       switch (window_event.type)
       {
-      // window resize 
-      case SDL_WINDOWEVENT:
-        if (window_event.window.event == SDL_WINDOWEVENT_RESIZED)
-        {
-          resize(window_event.window.data1, window_event.window.data2);
-        }
-        break;
-      case SDL_QUIT:
-        quit_flag = true;
-        break;
-      default:
-        event(&window_event);
-        break;
+        // window resize 
+        case SDL_WINDOWEVENT:
+          if (window_event.window.event == SDL_WINDOWEVENT_RESIZED)
+          {
+            resize(window_event.window.data1, window_event.window.data2);
+          }
+          break;
+        case SDL_QUIT:
+          quit_flag = true;
+          break;
+        default:
+          event(&window_event);
+          break;
       }
 
     }

@@ -10,3 +10,13 @@ PositionComponent::~PositionComponent()
 {
 }
 
+const glm::vec3& PositionComponent::getPosition() const
+{
+  return _position;
+}
+
+void PositionComponent::setPosition(const glm::vec3& position)
+{
+  _position = position;
+}
+

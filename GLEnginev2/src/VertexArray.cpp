@@ -1,7 +1,7 @@
 #include "VertexArray.h"
 
 #include <iostream>
-// TODO: way of specifing vertex attributes
+// TODO: way of specifying vertex attributes
 VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
     GLuint vert_count, const GLushort* indices, GLuint index_count)
 {
@@ -13,13 +13,13 @@ VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
 
   // create the buffers 
   _vert_buffer(GL_ARRAY_BUFFER, element_size * vert_count,
-      GL_STATIC_DRAW);
+  GL_STATIC_DRAW);
   _vert_buffer.bufferData(vertices);
 
   if (indices != NULL)
   {
-    _elem_buffer(GL_ELEMENT_ARRAY_BUFFER,
-        sizeof(GLushort) * index_count, GL_STATIC_DRAW);
+    _elem_buffer(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * index_count,
+        GL_STATIC_DRAW);
     _elem_buffer.bufferData(static_cast<const GLvoid*>(indices));
   }
 

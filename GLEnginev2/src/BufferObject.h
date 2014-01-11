@@ -5,7 +5,9 @@
 
 class BufferObject
 {
+
   public:
+
     BufferObject(GLenum target, GLsizeiptr size, GLenum usage);
     virtual ~BufferObject();
 

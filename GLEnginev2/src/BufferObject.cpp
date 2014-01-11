@@ -17,7 +17,7 @@ BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage)
 
 BufferObject::~BufferObject()
 {
-  glDeleteBuffers(1,&_id);
+  glDeleteBuffers(1, &_id);
 }
 
 GLuint BufferObject::getID(void) const

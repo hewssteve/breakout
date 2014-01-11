@@ -5,20 +5,18 @@
 
 class Component
 {
-  private:
-
-    std::string _entityID;
 
   public:
 
     Component(const std::string& entityID);
     virtual ~Component();
 
-    const std::string& getEntityID() const
-    {
-      return _entityID;
-    }
+    const std::string& getEntityID(void) const;
+
+  private:
+
+    std::string _entityID;
 
 };
 
-#endif /* COMPONENT_H_ */
+#endif
