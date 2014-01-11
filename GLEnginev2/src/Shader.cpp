@@ -62,10 +62,11 @@ bool Shader::compile()
     glGetShaderInfoLog(m_id, info_log_len, NULL, info_log);
     m_compile_log = info_log;
     delete info_log;
-    return false;
+  } else
+  {
+    m_compile_flag = true;
   }
-  m_compile_flag = true;
-  return true;
+  return m_compile_flag;
 }
 
 bool Shader::isCompileOK(void) const

@@ -14,9 +14,11 @@
 #include "VertexArray.h"
 
 static VertexArray terrain;
-static ShaderProgram program;
 
+static ShaderProgram program;
 static glm::mat4 proj;
+
+static GLuint mvp_uniform_loc;
 
 /******************************************************************************
  *
@@ -60,6 +62,7 @@ VertexArray loadOBJModelFromFile(const char* filename)
       std::string indentifer = tokens[0];
       if (indentifer == "v")
       {
+
         float x = std::strtof(tokens[1].c_str(), NULL);
         float y = std::strtof(tokens[2].c_str(), NULL);
         float z = std::strtof(tokens[3].c_str(), NULL);
@@ -155,6 +158,8 @@ void initShaders()
     std::cout << "=======================================" << std::endl;
   }
 
+  mvp_uniform_loc = program.getUniformLocation("mvp_mat");
+
 }
 /******************************************************************************
  *
@@ -183,9 +188,7 @@ void display()
   view_mat = glm::translate(view_mat, glm::vec3(0.0f, -50.0f, -100.0f));
   view_mat = glm::rotate(view_mat, 45.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
-  GLuint loc = program.getUniformLocation("mvp_mat");
-
-  program.uniformMatrix4f(loc, proj * view_mat * model_mat);
+  program.uniformMatrix4f(mvp_uniform_loc, proj * view_mat * model_mat);
 
   glBindVertexArray(terrain.getID());
 
