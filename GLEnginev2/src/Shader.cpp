@@ -27,7 +27,7 @@ GLuint Shader::getID(void) const
   return m_id;
 }
 
-shaderType Shader::getType(void) const
+Shader::shaderType Shader::getType(void) const
 {
   return m_type;
 }
