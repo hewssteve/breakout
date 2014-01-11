@@ -1,5 +1,5 @@
-#ifndef ENGINE_VERTEXARRAY_H
-#define ENGINE_VERTEXARRAY_H
+#ifndef _VERTEXARRAY_H
+#define _VERTEXARRAY_H
 
 #include "SDLBase.h"
 #include "BufferObject.h"
@@ -11,9 +11,6 @@ typedef struct
     GLsizei offset;
 
 } Attribute;
-
-#define VERTEX_3_3_2 0
-#define VERTEX_2_2   1
 
 typedef glm::vec3 vec3_t;
 typedef glm::vec2 vec2_t;
@@ -46,31 +43,18 @@ class VertexArray
 {
   public:
 
-    VertexArray();
     VertexArray(GLenum primitive, const GLvoid* vertices, GLuint vert_count,
         const GLushort* indices, GLuint index_count);
 
-    ~VertexArray();
+    virtual ~VertexArray();
 
-    GLuint getID() const
-    {
-      return _id;
-    }
+    GLuint getID(void) const;
+    GLenum getPrimitive(void) const;
+    GLuint getVertCount(void) const;
+    GLuint getIndexCount(void) const;
 
-    GLenum getPrimitive() const
-    {
-      return _primitive;
-    }
-
-    GLuint getVertCount() const
-    {
-      return _vert_count;
-    }
-
-    GLuint getIndexCount() const
-    {
-      return _index_count;
-    }
+    const BufferObject& getVertBuffer(void) const;
+    const BufferObject& getElementBuffer(void) const;
 
   private:
 
@@ -80,8 +64,8 @@ class VertexArray
 
     GLenum _primitive;
 
-    BufferObject vert_buffer;
-    BufferObject elem_buffer;
+    BufferObject _vert_buffer;
+    BufferObject _elem_buffer;
 
 };
 

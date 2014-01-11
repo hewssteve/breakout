@@ -1,5 +1,5 @@
-#ifndef POSITIONCOMPONENT_H_
-#define POSITIONCOMPONENT_H_
+#ifndef _POSITIONCOMPONENT_H_
+#define _POSITIONCOMPONENT_H_
 
 #include "SDLBase.h"
 #include "Component.h"

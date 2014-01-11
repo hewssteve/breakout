@@ -1,11 +1,7 @@
 #include "VertexArray.h"
 
 #include <iostream>
-
-VertexArray::VertexArray()
-{
-}
-
+// TODO: way of specifing vertex attributes
 VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
     GLuint vert_count, const GLushort* indices, GLuint index_count)
 {
@@ -16,25 +12,21 @@ VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
   int element_size = sizeof(Vertex3_3_2);
 
   // create the buffers 
-  BufferObject vertbuf(GL_ARRAY_BUFFER, element_size * vert_count,
+  _vert_buffer(GL_ARRAY_BUFFER, element_size * vert_count,
       GL_STATIC_DRAW);
-  vertbuf.bufferData(vertices);
-
-  BufferObject elembuf;
+  _vert_buffer.bufferData(vertices);
 
   if (indices != NULL)
   {
-    elembuf = BufferObject(GL_ELEMENT_ARRAY_BUFFER,
+    _elem_buffer(GL_ELEMENT_ARRAY_BUFFER,
         sizeof(GLushort) * index_count, GL_STATIC_DRAW);
-    elembuf.bufferData(static_cast<const GLvoid*>(indices));
+    _elem_buffer.bufferData(static_cast<const GLvoid*>(indices));
   }
-
-  //std::cout << "wat : " << *((GLfloat*)vertices) << std::endl;
 
   glGenVertexArrays(1, &_id);
   glBindVertexArray(_id);
 
-  glBindBuffer(vertbuf.getTarget(), vertbuf.getID());
+  glBindBuffer(_vert_buffer.getTarget(), _vert_buffer.getID());
 
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
@@ -47,7 +39,7 @@ VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
       reinterpret_cast<GLvoid*>(2 * sizeof(vec3_t)));
 
   if (indices != NULL)
-    glBindBuffer(elembuf.getTarget(), elembuf.getID());
+    glBindBuffer(_elem_buffer.getTarget(), _elem_buffer.getID());
 
   glBindVertexArray(0);
 }
@@ -55,4 +47,34 @@ VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
 VertexArray::~VertexArray()
 {
 
+}
+
+GLuint VertexArray::getID(void) const
+{
+  return _id;
+}
+
+GLenum VertexArray::getPrimitive(void) const
+{
+  return _primitive;
+}
+
+GLuint VertexArray::getVertCount(void) const
+{
+  return _vert_count;
+}
+
+GLuint VertexArray::getIndexCount(void) const
+{
+  return _index_count;
+}
+
+const BufferObject& VertexArray::getVertBuffer(void) const
+{
+  return _vert_buffer;
+}
+
+const BufferObject& VertexArray::getElementBuffer(void) const
+{
+  return _elem_buffer;
 }

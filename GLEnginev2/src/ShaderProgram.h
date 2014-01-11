@@ -1,5 +1,5 @@
-#ifndef SHADERPROGRAM_H
-#define SHADERPROGRAM_H
+#ifndef _SHADERPROGRAM_H
+#define _SHADERPROGRAM_H
 
 #include <iostream>
 #include <vector>

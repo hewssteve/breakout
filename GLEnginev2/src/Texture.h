@@ -1,5 +1,5 @@
-#ifndef TEXTURE_H_
-#define TEXTURE_H_
+#ifndef _TEXTURE_H_
+#define _TEXTURE_H_
 
 #include "SDLBase.h"
 

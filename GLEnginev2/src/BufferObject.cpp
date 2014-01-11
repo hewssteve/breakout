@@ -1,14 +1,5 @@
 #include "BufferObject.h"
 
-#include <iostream>
-
-const GLenum BufferObject::DEFAULT_TARGET = GL_ARRAY_BUFFER;
-
-BufferObject::BufferObject()
-{
-
-}
-
 BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage)
 {
   GLuint vbo;
@@ -26,9 +17,17 @@ BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage)
 
 BufferObject::~BufferObject()
 {
-  std::cout << "Buffer destructor" << std::endl;
-  //glDeleteBuffers(1,&_id);
-  checkGLError(__LINE__, "BufferObject::~BufferObject()");
+  glDeleteBuffers(1,&_id);
+}
+
+GLuint BufferObject::getID(void) const
+{
+  return _id;
+}
+
+GLenum BufferObject::getTarget(void) const
+{
+  return _target;
 }
 
 void BufferObject::bufferData(const GLvoid* data)

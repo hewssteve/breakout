@@ -115,14 +115,15 @@ VertexArray loadOBJModelFromFile(const char* filename)
  ******************************************************************************/
 bool compileShader(Shader* shader, const std::string& source)
 {
-  const GLchar* log = shader->compile(source.c_str());
 
-  if (log != NULL)
+  shader->loadSource(source.c_str());
+
+  if (!shader->compile())
   {
     std::cout << "=======================================" << std::endl;
     std::cout << "Shader compile error: (" << shader->getID() << ")"
         << std::endl;
-    std::cout << log << std::endl;
+    std::cout << shader->getCompileLog() << std::endl;
     std::cout << "=======================================" << std::endl;
     return false;
   }
@@ -146,13 +147,13 @@ void initShaders()
   shaders.push_back(v_shader);
   shaders.push_back(f_shader);
 
-  const GLchar* log = program.link(shaders);
 
-  if (log != NULL)
+
+  if (!program.link(shaders))
   {
     std::cout << "=======================================" << std::endl;
     std::cout << "Program compile error: " << std::endl;
-    std::cout << log << std::endl;
+    std::cout << program.getLinkLog() << std::endl;
     std::cout << "=======================================" << std::endl;
   }
 

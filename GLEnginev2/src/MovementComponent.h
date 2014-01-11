@@ -1,5 +1,5 @@
-#ifndef MOVEMENTCOMPONENT_H_
-#define MOVEMENTCOMPONENT_H_
+#ifndef _MOVEMENTCOMPONENT_H_
+#define _MOVEMENTCOMPONENT_H_
 
 #include "SDLBase.h"
 #include "Component.h"

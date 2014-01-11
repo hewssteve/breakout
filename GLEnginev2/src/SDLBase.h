@@ -1,5 +1,5 @@
-#ifndef SDL_BASE_H
-#define SDL_BASE_H
+#ifndef _SDL_BASE_H
+#define _SDL_BASE_H
 
 #include <string>
 

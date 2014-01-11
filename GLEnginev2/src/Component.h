@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H_
-#define COMPONENT_H_
+#ifndef _COMPONENT_H_
+#define _COMPONENT_H_
 
 #include <string>
 

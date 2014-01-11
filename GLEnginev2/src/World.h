@@ -1,12 +1,5 @@
-/*
- * World.h
- *
- *  Created on: 08/01/2014
- *      Author: stephen
- */
-
-#ifndef WORLD_H_
-#define WORLD_H_
+#ifndef _WORLD_H_
+#define _WORLD_H_
 
 #include <vector>
 #include <string>
@@ -26,4 +19,4 @@ class World
 
 };
 
-#endif /* WORLD_H_ */
+#endif
