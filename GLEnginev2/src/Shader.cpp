@@ -1,38 +1,86 @@
 #include "Shader.h"
 
-Shader::Shader()
+Shader::Shader(shaderType type)
 {
-  _id = 0;
-  _type = 0;
-}
+  GLenum gl_type;
 
-Shader::Shader(GLenum type)
-{
-  _id = 0;
-  _type = type;
+  if(type == VERTEX)
+  {
+	  gl_type = GL_VERTEX_SHADER;
+  } else if(type == FRAGMENT)
+  {
+	  gl_type = GL_FRAGMENT_SHADER;
+  }
+
+  m_id = glCreateShader(gl_type);
+  m_compile_flag = false;
 }
 
 Shader::~Shader()
 {
+	glDeleteShader(m_id);
+}
+
+GLuint Shader::getID(void) const
+{
+	return m_id;
+}
+
+shaderType Shader::getType(void) const
+{
+	return m_type;
+}
+
+void Shader::loadSource(const GLchar* source)
+{
+	m_source = source;
+	/*
+	 * TODO: get GLSL version from source
+	 *
+	 */
 
 }
 
-const GLchar* Shader::compile(const GLchar* source)
+const std::string& Shader::getSource(void) const
 {
-  GLchar* info_log;
-  _id = glCreateShader(_type);
-  glShaderSource(_id, 1, &source, NULL);
-  glCompileShader(_id);
+	return m_source;
+}
+
+bool Shader::compile()
+{
+  glShaderSource(m_id, 1, m_source.c_str(), NULL);
+  glCompileShader(m_id);
 
   GLint compile_status;
-  glGetShaderiv(_id, GL_COMPILE_STATUS, &compile_status);
+  glGetShaderiv(m_id, GL_COMPILE_STATUS, &compile_status);
   if (compile_status == GL_FALSE)
   {
+	m_compile_flag = false;
+	GLchar* info_log;
     GLint info_log_len;
-    glGetShaderiv(_id, GL_INFO_LOG_LENGTH, &info_log_len);
+    glGetShaderiv(m_id, GL_INFO_LOG_LENGTH, &info_log_len);
     info_log = new GLchar[info_log_len + 1];
-    glGetShaderInfoLog(_id, info_log_len, NULL, info_log);
-    return info_log;
+    glGetShaderInfoLog(m_id, info_log_len, NULL, info_log);
+    m_compile_log = info_log;
+    delete info_log;
+    return false;
   }
-  return NULL;
+  m_compile_flag = true;
+  return true;
 }
+
+bool Shader::isCompileOK(void) const
+{
+	return m_compileFlag;
+}
+
+const std::string& Shader::getCompileLog(void) const
+{
+	return m_compile_log;
+}
+
+const std::string& Shader::getGLSLversion(void) const
+{
+	return m_GLSL_version;
+}
+
