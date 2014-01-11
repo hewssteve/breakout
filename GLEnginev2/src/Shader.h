@@ -5,11 +5,12 @@
 
 #include "SDLBase.h"
 
-class Shader
-{
+class Shader {
   public:
 
-	enum shaderType { VERTEX, FRAGMENT };
+    enum shaderType {
+      VERTEX, FRAGMENT
+    };
 
     Shader(shaderType type);
     virtual ~Shader();
@@ -40,7 +41,6 @@ class Shader
     std::string m_GLSL_version;
     std::string m_compile_log;
     std::string m_source;
-
 
 };
 

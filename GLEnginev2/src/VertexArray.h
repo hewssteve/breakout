@@ -4,8 +4,7 @@
 #include "SDLBase.h"
 #include "BufferObject.h"
 
-typedef struct
-{
+typedef struct {
 
     GLuint num_elements;
     GLsizei offset;
@@ -18,16 +17,14 @@ typedef struct
 typedef glm::vec3 vec3_t;
 typedef glm::vec2 vec2_t;
 
-typedef struct
-{
+typedef struct {
     vec3_t position;
     vec3_t normal;
     vec2_t tex_coord;
 
 } Vertex3_3_2;
 
-typedef struct
-{
+typedef struct {
 
     vec2_t position;
     vec2_t tex_coord;
@@ -42,34 +39,28 @@ typedef struct
  *
  *
  *****************************************************************************/
-class VertexArray
-{
+class VertexArray {
   public:
-    
+
     VertexArray();
-    VertexArray(GLenum primitive, 
-        const GLvoid* vertices, GLuint vert_count, 
+    VertexArray(GLenum primitive, const GLvoid* vertices, GLuint vert_count,
         const GLushort* indices, GLuint index_count);
-     
+
     ~VertexArray();
 
-    GLuint getID() const
-    {
+    GLuint getID() const {
       return _id;
     }
 
-    GLenum getPrimitive() const
-    {
+    GLenum getPrimitive() const {
       return _primitive;
     }
 
-    GLuint getVertCount() const
-    {
+    GLuint getVertCount() const {
       return _vert_count;
     }
 
-    GLuint getIndexCount() const
-    {
+    GLuint getIndexCount() const {
       return _index_count;
     }
 
@@ -80,7 +71,7 @@ class VertexArray
     GLuint _index_count;
 
     GLenum _primitive;
-    
+
     BufferObject vert_buffer;
     BufferObject elem_buffer;
 

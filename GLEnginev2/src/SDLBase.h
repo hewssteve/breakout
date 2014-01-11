@@ -7,11 +7,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-
 
 /******************************************************************************
  *

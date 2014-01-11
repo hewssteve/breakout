@@ -13,19 +13,16 @@
 
 #include "Component.h"
 
-class World
-{
-    
+class World {
+
   private:
-    
+
     std::vector<Component> _complist;
-    
-    
+
   public:
     World();
     virtual ~World();
-    
-    
+
 };
 
 #endif /* WORLD_H_ */
