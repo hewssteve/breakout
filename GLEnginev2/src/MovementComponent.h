@@ -4,7 +4,8 @@
 #include "SDLBase.h"
 #include "Component.h"
 
-class MovementComponent: public Component {
+class MovementComponent: public Component
+{
 
   private:
 

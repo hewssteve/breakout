@@ -10,13 +10,15 @@
  *
  *
  *****************************************************************************/
-class Texture {
+class Texture
+{
   public:
     Texture();
     Texture(SDL_Surface* surface, GLenum format, GLint internalformat);
     virtual ~Texture();
 
-    GLuint getID() const {
+    GLuint getID() const
+    {
       return _tex_id;
     }
 

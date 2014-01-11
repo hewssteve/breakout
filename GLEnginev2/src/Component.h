@@ -3,7 +3,8 @@
 
 #include <string>
 
-class Component {
+class Component
+{
   private:
 
     std::string _entityID;
@@ -13,7 +14,8 @@ class Component {
     Component(const std::string& entityID);
     virtual ~Component();
 
-    const std::string& getEntityID() const {
+    const std::string& getEntityID() const
+    {
       return _entityID;
     }
 

@@ -14,7 +14,8 @@
  *
  *
  *****************************************************************************/
-class ShaderProgram {
+class ShaderProgram
+{
   public:
     ShaderProgram();
     ~ShaderProgram();

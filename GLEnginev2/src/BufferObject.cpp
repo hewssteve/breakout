@@ -4,11 +4,13 @@
 
 const GLenum BufferObject::DEFAULT_TARGET = GL_ARRAY_BUFFER;
 
-BufferObject::BufferObject() {
+BufferObject::BufferObject()
+{
 
 }
 
-BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage) {
+BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage)
+{
   GLuint vbo;
   glGenBuffers(1, &vbo);
   _id = vbo;
@@ -22,13 +24,15 @@ BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage) {
   checkGLError(__LINE__, "BufferObject::BufferObject()");
 }
 
-BufferObject::~BufferObject() {
+BufferObject::~BufferObject()
+{
   std::cout << "Buffer destructor" << std::endl;
   //glDeleteBuffers(1,&_id);
   checkGLError(__LINE__, "BufferObject::~BufferObject()");
 }
 
-void BufferObject::bufferData(const GLvoid* data) {
+void BufferObject::bufferData(const GLvoid* data)
+{
   glBindBuffer(_target, _id);
 
   glBufferSubData(_target, 0, _size, data);

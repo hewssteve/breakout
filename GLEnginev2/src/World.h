@@ -13,7 +13,8 @@
 
 #include "Component.h"
 
-class World {
+class World
+{
 
   private:
 

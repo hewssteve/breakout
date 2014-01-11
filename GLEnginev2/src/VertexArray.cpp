@@ -2,11 +2,13 @@
 
 #include <iostream>
 
-VertexArray::VertexArray() {
+VertexArray::VertexArray()
+{
 }
 
 VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
-    GLuint vert_count, const GLushort* indices, GLuint index_count) {
+    GLuint vert_count, const GLushort* indices, GLuint index_count)
+{
   _vert_count = vert_count;
   _primitive = primitive;
   _index_count = index_count;
@@ -20,7 +22,8 @@ VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
 
   BufferObject elembuf;
 
-  if (indices != NULL) {
+  if (indices != NULL)
+  {
     elembuf = BufferObject(GL_ELEMENT_ARRAY_BUFFER,
         sizeof(GLushort) * index_count, GL_STATIC_DRAW);
     elembuf.bufferData(static_cast<const GLvoid*>(indices));
@@ -49,6 +52,7 @@ VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
   glBindVertexArray(0);
 }
 
-VertexArray::~VertexArray() {
+VertexArray::~VertexArray()
+{
 
 }

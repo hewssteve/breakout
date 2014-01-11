@@ -5,10 +5,12 @@
 
 #include "SDLBase.h"
 
-class Shader {
+class Shader
+{
   public:
 
-    enum shaderType {
+    enum shaderType
+    {
       VERTEX, FRAGMENT
     };
 

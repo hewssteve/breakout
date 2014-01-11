@@ -23,15 +23,18 @@ static glm::mat4 proj;
  *	Misc Functions
  *
  ******************************************************************************/
-const std::string getShaderSource(const char* filename) {
+const std::string getShaderSource(const char* filename)
+{
   std::ifstream in(filename, std::ios::in);
-  if (!in.is_open()) {
+  if (!in.is_open())
+  {
     std::cout << "Could not read " << filename << " ." << std::endl;
   }
 
   std::string content;
   std::string line;
-  while (!in.eof()) {
+  while (!in.eof())
+  {
     std::getline(in, line);
     content.append(line + "\n");
   }
@@ -39,7 +42,8 @@ const std::string getShaderSource(const char* filename) {
   return content;
 }
 
-VertexArray loadOBJModelFromFile(const char* filename) {
+VertexArray loadOBJModelFromFile(const char* filename)
+{
   std::ifstream file(filename);
   std::string line;
 
@@ -47,19 +51,23 @@ VertexArray loadOBJModelFromFile(const char* filename) {
   std::vector<vec3_t> normals;
   std::vector<GLushort> indices;
 
-  while (std::getline(file, line)) {
+  while (std::getline(file, line))
+  {
     Tokenizer tok(line);
     std::vector<std::string> tokens = tok.tokenize(' ');
-    if (tokens.size() == 4) {
+    if (tokens.size() == 4)
+    {
       std::string indentifer = tokens[0];
-      if (indentifer == "v") {
+      if (indentifer == "v")
+      {
         float x = std::strtof(tokens[1].c_str(), NULL);
         float y = std::strtof(tokens[2].c_str(), NULL);
         float z = std::strtof(tokens[3].c_str(), NULL);
 
         vertices.push_back(vec3_t(x, y, z));
 
-      } else if (indentifer == "vn") {
+      } else if (indentifer == "vn")
+      {
 
         float x = std::strtof(tokens[1].c_str(), NULL);
         float y = std::strtof(tokens[2].c_str(), NULL);
@@ -67,11 +75,14 @@ VertexArray loadOBJModelFromFile(const char* filename) {
 
         normals.push_back(vec3_t(x, y, z));
 
-      } else if (indentifer == "f") {
-        for (int i = 0; i < 4; i++) {
+      } else if (indentifer == "f")
+      {
+        for (int i = 0; i < 4; i++)
+        {
           Tokenizer facesplit(tokens[i]);
           std::vector<std::string> face = facesplit.tokenize('/');
-          if (face.size() == 3) {
+          if (face.size() == 3)
+          {
             GLushort indice = static_cast<GLushort>(std::strtoul(
                 face[0].c_str(), NULL, 0)) - 1;
             indices.push_back(indice);
@@ -87,7 +98,8 @@ VertexArray loadOBJModelFromFile(const char* filename) {
   std::vector<Vertex3_3_2>::iterator v1;
 
   for (v = vertices.begin(), v1 = vertex_list.begin(); v < vertices.end();
-      v++, v1++) {
+      v++, v1++)
+  {
     v1->position = *v;
   }
 
@@ -101,10 +113,12 @@ VertexArray loadOBJModelFromFile(const char* filename) {
  *	Init Functions
  *
  ******************************************************************************/
-bool compileShader(Shader* shader, const std::string& source) {
+bool compileShader(Shader* shader, const std::string& source)
+{
   const GLchar* log = shader->compile(source.c_str());
 
-  if (log != NULL) {
+  if (log != NULL)
+  {
     std::cout << "=======================================" << std::endl;
     std::cout << "Shader compile error: (" << shader->getID() << ")"
         << std::endl;
@@ -116,7 +130,8 @@ bool compileShader(Shader* shader, const std::string& source) {
   return true;
 }
 
-void initShaders() {
+void initShaders()
+{
   std::vector<Shader> shaders;
 
   Shader v_shader(GL_VERTEX_SHADER);
@@ -133,7 +148,8 @@ void initShaders() {
 
   const GLchar* log = program.link(shaders);
 
-  if (log != NULL) {
+  if (log != NULL)
+  {
     std::cout << "=======================================" << std::endl;
     std::cout << "Program compile error: " << std::endl;
     std::cout << log << std::endl;
@@ -146,7 +162,8 @@ void initShaders() {
  *	Callbacks
  *
  ******************************************************************************/
-void init() {
+void init()
+{
   initShaders();
 
   terrain = loadOBJModelFromFile("models/terrain.obj");
@@ -155,7 +172,8 @@ void init() {
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void display() {
+void display()
+{
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glUseProgram(program.getID());
@@ -180,38 +198,47 @@ void display() {
   glUseProgram(0);
 }
 
-void resize(int width, int height) {
+void resize(int width, int height)
+{
   glViewport(0, 0, width, height);
 
   proj = glm::perspective(75.0f, (float) width / height, 0.01f, 2000.0f);
 
 }
 
-void update(int frame_time) {
+void update(int frame_time)
+{
   //float dt = frame_time * 0.001f;
 
 }
 
-void cleanup() {
+void cleanup()
+{
 
 }
 
-void keyDown(SDL_Keycode key) {
-  switch (key) {
+void keyDown(SDL_Keycode key)
+{
+  switch (key)
+  {
   default:
     break;
   }
 }
 
-void keyUp(SDL_Keycode key) {
-  switch (key) {
+void keyUp(SDL_Keycode key)
+{
+  switch (key)
+  {
   default:
     break;
   }
 }
 
-void event(SDL_Event *event) {
-  switch (event->type) {
+void event(SDL_Event *event)
+{
+  switch (event->type)
+  {
   case SDL_KEYDOWN:
     keyDown(event->key.keysym.sym);
     break;

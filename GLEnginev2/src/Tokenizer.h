@@ -7,7 +7,8 @@
 /*
  * Simple tokenizer class 
  */
-class Tokenizer {
+class Tokenizer
+{
   public:
     Tokenizer();
     Tokenizer(std::string line);

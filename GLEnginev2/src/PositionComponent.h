@@ -4,7 +4,8 @@
 #include "SDLBase.h"
 #include "Component.h"
 
-class PositionComponent: public Component {
+class PositionComponent: public Component
+{
 
   private:
 
@@ -15,11 +16,13 @@ class PositionComponent: public Component {
         const glm::vec3& initial_pos);
     virtual ~PositionComponent();
 
-    const glm::vec3& getPosition() const {
+    const glm::vec3& getPosition() const
+    {
       return _position;
     }
 
-    void setPosition(const glm::vec3& position) {
+    void setPosition(const glm::vec3& position)
+    {
       _position = position;
     }
 

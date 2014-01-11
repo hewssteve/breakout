@@ -3,17 +3,20 @@
 
 #include "SDLBase.h"
 
-class BufferObject {
+class BufferObject
+{
   public:
     BufferObject();
     BufferObject(GLenum target, GLsizeiptr size, GLenum usage);
     ~BufferObject();
 
-    GLuint getID() const {
+    GLuint getID() const
+    {
       return _id;
     }
 
-    GLenum getTarget() const {
+    GLenum getTarget() const
+    {
       return _target;
     }
 

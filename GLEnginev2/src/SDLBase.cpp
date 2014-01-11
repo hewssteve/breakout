@@ -17,17 +17,21 @@ static const int MINOR_VERSION = 3;
 
 static const Uint32 WINDOW_FLAGS = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
 
-void checkGLError(int line, const std::string& where) {
+void checkGLError(int line, const std::string& where)
+{
   GLenum error = glGetError();
-  if (error) {
+  if (error)
+  {
     std::cout << "OpenGL error : " << error;
     std::cout << " , at line " << line << " in " << where << std::endl;
   }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
-  if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+  if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+  {
     std::cerr << "ERROR: SDL_Init() failed: ";
     std::cerr << SDL_GetError() << std::endl;
 
@@ -43,7 +47,8 @@ int main(int argc, char *argv[]) {
   SDL_Window* window = SDL_CreateWindow(WINDOW_TITLE, INIT_WINDOWX,
       INIT_WINDOWY, INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT, WINDOW_FLAGS);
 
-  if (window == NULL) {
+  if (window == NULL)
+  {
     std::cerr << "ERROR: SDL_CreateWindow() failed: ";
     std::cerr << SDL_GetError() << std::endl;
 
@@ -51,7 +56,8 @@ int main(int argc, char *argv[]) {
   }
 
   SDL_GLContext context = SDL_GL_CreateContext(window);
-  if (context == NULL) {
+  if (context == NULL)
+  {
     std::cerr << "ERROR: SDL_GL_CreateContext() failed: ";
     std::cerr << SDL_GetError();
     std::cerr << "-- requested GL version: " << MAJOR_VERSION << "."
@@ -61,7 +67,8 @@ int main(int argc, char *argv[]) {
 
   glewExperimental = GL_TRUE;
   GLenum error = glewInit();
-  if (error != GLEW_OK) {
+  if (error != GLEW_OK)
+  {
     std::cout << "ERROR: glewInit() failure : ";
     std::cout << glewGetErrorString(error) << std::endl;
     exit(EXIT_FAILURE);
@@ -74,12 +81,16 @@ int main(int argc, char *argv[]) {
   SDL_Event window_event;
   Uint32 last_time = 0;
   Uint32 now_time;
-  while (!quit_flag) {
-    while (SDL_PollEvent(&window_event)) {
-      switch (window_event.type) {
+  while (!quit_flag)
+  {
+    while (SDL_PollEvent(&window_event))
+    {
+      switch (window_event.type)
+      {
       // window resize 
       case SDL_WINDOWEVENT:
-        if (window_event.window.event == SDL_WINDOWEVENT_RESIZED) {
+        if (window_event.window.event == SDL_WINDOWEVENT_RESIZED)
+        {
           resize(window_event.window.data1, window_event.window.data2);
         }
         break;
