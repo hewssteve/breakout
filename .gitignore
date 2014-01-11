@@ -14,3 +14,6 @@
 
 models/
 obj/
+
+#eclipse stuff
+.cproject
