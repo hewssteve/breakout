@@ -7,13 +7,6 @@
 #include "SDLBase.h"
 #include "Shader.h"
 
-/******************************************************************************
- *
- *	Shader Program 
- *
- *
- *
- *****************************************************************************/
 class ShaderProgram
 {
   public:
@@ -27,7 +20,7 @@ class ShaderProgram
 
     const std::string& getLinkLog(void) const;
 
-    GLuint getUniformLocation(const char* location_name) const;
+    GLuint getUniformLocation(const std::string& location_name) const;
 
     void uniformMatrix4f(GLuint location, const glm::mat4& mat) const;
     void uniformMatrix3f(GLuint location, const glm::mat3& mat) const;

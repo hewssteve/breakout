@@ -12,22 +12,25 @@ typedef struct
 
 } Attribute;
 
+/*
+typedef glm::vec4 vec4_t;
 typedef glm::vec3 vec3_t;
 typedef glm::vec2 vec2_t;
+*/
 
 typedef struct
 {
-    vec3_t position;
-    vec3_t normal;
-    vec2_t tex_coord;
+    glm::vec4 position;
+    glm::vec3 normal;
+    glm::vec2 tex_coord;
 
-} Vertex3_3_2;
+} Vertex4_3_2;
 
 typedef struct
 {
 
-    vec2_t position;
-    vec2_t tex_coord;
+    glm::vec2 position;
+    glm::vec2 tex_coord;
 
 } Vertex2_2;
 
@@ -43,7 +46,8 @@ class VertexArray
 {
   public:
 
-    VertexArray(GLenum primitive, const GLvoid* vertices, GLuint vert_count,
+    VertexArray();
+    VertexArray(GLenum primitive, const Vertex4_3_2* vertices, GLuint vert_count, 
         const GLushort* indices, GLuint index_count);
 
     virtual ~VertexArray();

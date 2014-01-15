@@ -36,10 +36,12 @@ bool ShaderProgram::link(const std::vector<Shader>& shaders)
     glGetProgramInfoLog(_id, info_log_len, NULL, info_log);
     _link_log = info_log;
     delete info_log;
-    return false;
   }
-  _isLinked = true;
-  return true;
+  else
+  {
+    _isLinked = true;
+  }
+  return _isLinked;
 }
 
 bool ShaderProgram::isLinkOK(void) const
@@ -52,9 +54,9 @@ const std::string& ShaderProgram::getLinkLog(void) const
   return _link_log;
 }
 
-GLuint ShaderProgram::getUniformLocation(const char* location_name) const
+GLuint ShaderProgram::getUniformLocation(const std::string& location_name) const
 {
-  return glGetUniformLocation(_id, location_name);
+  return glGetUniformLocation(_id, location_name.c_str());
 }
 
 void ShaderProgram::uniformMatrix4f(GLuint location, const glm::mat4& mat) const

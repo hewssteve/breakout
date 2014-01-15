@@ -7,7 +7,14 @@ class BufferObject
 {
 
   public:
-
+    
+    enum BufferType 
+    { 
+      ARRAY_BUFFER, 
+      ELEMENT_BUFFER 
+    };
+    
+    BufferObject();
     BufferObject(GLenum target, GLsizeiptr size, GLenum usage);
     virtual ~BufferObject();
 

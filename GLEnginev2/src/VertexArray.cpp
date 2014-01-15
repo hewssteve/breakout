@@ -1,28 +1,23 @@
 #include "VertexArray.h"
 
 #include <iostream>
+
+VertexArray::VertexArray(){}
+
 // TODO: way of specifying vertex attributes
-VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
+VertexArray::VertexArray(GLenum primitive, const Vertex4_3_2* vertices,
     GLuint vert_count, const GLushort* indices, GLuint index_count)
+:
+ _vert_count(vert_count),
+ _index_count(index_count),
+ _primitive(primitive),
+ _vert_buffer(GL_ARRAY_BUFFER, sizeof(Vertex4_3_2) * vert_count, GL_STATIC_DRAW),
+ _elem_buffer(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * index_count, GL_STATIC_DRAW)
 {
-  _vert_count = vert_count;
-  _primitive = primitive;
-  _index_count = index_count;
-
-  int element_size = sizeof(Vertex3_3_2);
-
-  // create the buffers 
-  _vert_buffer(GL_ARRAY_BUFFER, element_size * vert_count,
-  GL_STATIC_DRAW);
-  _vert_buffer.bufferData(vertices);
-
-  if (indices != NULL)
-  {
-    _elem_buffer(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * index_count,
-        GL_STATIC_DRAW);
-    _elem_buffer.bufferData(static_cast<const GLvoid*>(indices));
-  }
-
+  // put data in the buffers 
+  _vert_buffer.bufferData(static_cast<const GLvoid*>(vertices));
+  _elem_buffer.bufferData(static_cast<const GLvoid*>(indices));
+  
   glGenVertexArrays(1, &_id);
   glBindVertexArray(_id);
 
@@ -32,14 +27,13 @@ VertexArray::VertexArray(GLenum primitive, const GLvoid* vertices,
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, element_size, 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, element_size,
-      reinterpret_cast<GLvoid*>(sizeof(vec3_t)));
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, element_size,
-      reinterpret_cast<GLvoid*>(2 * sizeof(vec3_t)));
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex4_3_2), 0);
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex4_3_2),
+      reinterpret_cast<GLvoid*>(sizeof(glm::vec3)));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex4_3_2),
+      reinterpret_cast<GLvoid*>(2 * sizeof(glm::vec3)));
 
-  if (indices != NULL)
-    glBindBuffer(_elem_buffer.getTarget(), _elem_buffer.getID());
+  glBindBuffer(_elem_buffer.getTarget(), _elem_buffer.getID());
 
   glBindVertexArray(0);
 }

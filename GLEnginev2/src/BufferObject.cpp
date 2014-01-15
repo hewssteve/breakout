@@ -1,5 +1,7 @@
 #include "BufferObject.h"
 
+BufferObject::BufferObject(){}
+
 BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage)
 {
   GLuint vbo;

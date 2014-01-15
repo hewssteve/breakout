@@ -25,9 +25,10 @@ static GLuint mvp_uniform_loc;
  *	Misc Functions
  *
  ******************************************************************************/
-const std::string getShaderSource(const char* filename)
+const std::string getShaderSource(const std::string& filename)
 {
-  std::ifstream in(filename, std::ios::in);
+  std::cout << "Loading shader source \'" << filename << "\'." << std::endl;
+  std::ifstream in(filename.c_str(), std::ios::in);
   if (!in.is_open())
   {
     std::cout << "Could not read " << filename << " ." << std::endl;
@@ -44,13 +45,15 @@ const std::string getShaderSource(const char* filename)
   return content;
 }
 
-VertexArray loadOBJModelFromFile(const char* filename)
+VertexArray loadOBJModelFromFile(const std::string& filename)
 {
-  std::ifstream file(filename);
+  std::cout << "Loading model \'" << filename << "\'." << std::endl;
+  
+  std::ifstream file(filename.c_str());
   std::string line;
 
-  std::vector<vec3_t> vertices;
-  std::vector<vec3_t> normals;
+  std::vector<glm::vec4> vertices;
+  std::vector<glm::vec3> normals;
   std::vector<GLushort> indices;
 
   while (std::getline(file, line))
@@ -67,7 +70,7 @@ VertexArray loadOBJModelFromFile(const char* filename)
         float y = std::strtof(tokens[2].c_str(), NULL);
         float z = std::strtof(tokens[3].c_str(), NULL);
 
-        vertices.push_back(vec3_t(x, y, z));
+        vertices.push_back(glm::vec4(x, y, z, 1.0));
 
       } else if (indentifer == "vn")
       {
@@ -76,7 +79,7 @@ VertexArray loadOBJModelFromFile(const char* filename)
         float y = std::strtof(tokens[2].c_str(), NULL);
         float z = std::strtof(tokens[3].c_str(), NULL);
 
-        normals.push_back(vec3_t(x, y, z));
+        normals.push_back(glm::vec3(x, y, z));
 
       } else if (indentifer == "f")
       {
@@ -95,19 +98,19 @@ VertexArray loadOBJModelFromFile(const char* filename)
     }
   }
 
-  std::vector<Vertex3_3_2> vertex_list(vertices.size());
+  std::vector<Vertex4_3_2> vertex_list(vertices.size());
 
-  std::vector<vec3_t>::iterator v;
-  std::vector<Vertex3_3_2>::iterator v1;
+  std::vector<glm::vec4>::iterator v;
+  std::vector<Vertex4_3_2>::iterator v1;
 
   for (v = vertices.begin(), v1 = vertex_list.begin(); v < vertices.end();
-      v++, v1++)
+      ++v, ++v1)
   {
     v1->position = *v;
   }
 
   return VertexArray(GL_TRIANGLES,
-      reinterpret_cast<GLvoid*>(vertex_list.data()), vertex_list.size(),
+      vertex_list.data(), vertex_list.size(),
       indices.data(), indices.size());
 }
 
@@ -118,7 +121,10 @@ VertexArray loadOBJModelFromFile(const char* filename)
  ******************************************************************************/
 bool compileShader(Shader* shader, const std::string& source)
 {
-
+  std::cout << "==============================" << std::endl;
+  std::cout << "Shader source: " << std::endl;
+  std::cout << source << std::endl;
+  
   shader->loadSource(source.c_str());
 
   if (!shader->compile())
@@ -130,7 +136,6 @@ bool compileShader(Shader* shader, const std::string& source)
     std::cout << "=======================================" << std::endl;
     return false;
   }
-
   return true;
 }
 
@@ -138,11 +143,14 @@ void initShaders()
 {
   std::vector<Shader> shaders;
 
-  Shader v_shader(GL_VERTEX_SHADER);
-  Shader f_shader(GL_FRAGMENT_SHADER);
+  Shader v_shader(Shader::VERTEX);
+  Shader f_shader(Shader::FRAGMENT);
 
-  std::string v_shader_source = getShaderSource("shaders/shader.vert");
-  std::string f_shader_source = getShaderSource("shaders/shader.frag");
+  std::string v_shader_source_loc = "shaders/shader.vert";
+  std::string f_shader_source_loc = "shaders/shader.frag";
+  
+  std::string v_shader_source = getShaderSource(v_shader_source_loc);
+  std::string f_shader_source = getShaderSource(f_shader_source_loc);
 
   compileShader(&v_shader, v_shader_source);
   compileShader(&f_shader, f_shader_source);
@@ -169,8 +177,10 @@ void initShaders()
 void init()
 {
   initShaders();
+  
+  std::string terrain_file_loc = "models/terrain.obj";
 
-  terrain = loadOBJModelFromFile("models/terrain.obj");
+  terrain = loadOBJModelFromFile(terrain_file_loc);
 
   glEnable(GL_DEPTH_TEST);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

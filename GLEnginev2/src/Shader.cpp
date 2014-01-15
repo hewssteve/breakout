@@ -49,7 +49,8 @@ const std::string& Shader::getSource(void) const
 
 bool Shader::compile()
 {
-  glShaderSource(m_id, 1, m_source.c_str(), NULL);
+  const GLchar* source = m_source.c_str();
+  glShaderSource(m_id, 1, &source, NULL);
   glCompileShader(m_id);
 
   GLint compile_status;
