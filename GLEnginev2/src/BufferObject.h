@@ -8,14 +8,15 @@ class BufferObject
 
   public:
     
-    enum BufferType 
-    { 
-      ARRAY_BUFFER, 
-      ELEMENT_BUFFER 
+    enum BufTarget
+    {
+      ARRAY_BUFFER,
+      ELEMENT_BUFFER
     };
     
+    
     BufferObject();
-    BufferObject(GLenum target, GLsizeiptr size, GLenum usage);
+    BufferObject(BufTarget target, GLsizeiptr size, GLenum usage);
     virtual ~BufferObject();
 
     GLuint getID(void) const;
@@ -26,10 +27,10 @@ class BufferObject
   private:
 
     GLuint _id;
-    GLenum _target;
-
-    GLenum _usage;
+    
+    GLenum _usage;  
     GLsizeiptr _size;
+    GLenum _target;
 
 };
 

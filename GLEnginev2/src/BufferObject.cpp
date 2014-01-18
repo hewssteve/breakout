@@ -2,15 +2,20 @@
 
 BufferObject::BufferObject(){}
 
-BufferObject::BufferObject(GLenum target, GLsizeiptr size, GLenum usage)
+BufferObject::BufferObject(BufTarget target, GLsizeiptr size, GLenum usage)
+:
+ _usage(usage),
+ _size(size)
 {
-  GLuint vbo;
-  glGenBuffers(1, &vbo);
-  _id = vbo;
-  _target = target;
-  _size = size;
-  _usage = usage;
-
+  if(target == BufTarget::ARRAY_BUFFER)
+  {
+    _target = GL_ARRAY_BUFFER;
+  } else if(target == BufTarget::ELEMENT_BUFFER)
+  {
+    _target = GL_ELEMENT_ARRAY_BUFFER;
+  }
+  
+  glGenBuffers(1, &_id);
   glBindBuffer(_target, _id);
   glBufferData(_target, size, NULL, usage);
   glBindBuffer(_target, 0);
@@ -35,10 +40,7 @@ GLenum BufferObject::getTarget(void) const
 void BufferObject::bufferData(const GLvoid* data)
 {
   glBindBuffer(_target, _id);
-
   glBufferSubData(_target, 0, _size, data);
-
   glBindBuffer(_target, 0);
-
   checkGLError(__LINE__, "BufferObject::bufferData()");
 }

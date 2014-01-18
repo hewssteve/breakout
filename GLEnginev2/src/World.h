@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Component.h"
+#include "Entity.h"
 
 class World
 {

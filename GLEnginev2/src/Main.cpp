@@ -11,108 +11,13 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "Tokenizer.h"
-#include "VertexArray.h"
-
-static VertexArray terrain;
-
-static ShaderProgram program;
-static glm::mat4 proj;
-
-static GLuint mvp_uniform_loc;
+#include "MeshComponent.h"
 
 /******************************************************************************
  *
  *	Misc Functions
  *
  ******************************************************************************/
-const std::string getShaderSource(const std::string& filename)
-{
-  std::cout << "Loading shader source \'" << filename << "\'." << std::endl;
-  std::ifstream in(filename.c_str(), std::ios::in);
-  if (!in.is_open())
-  {
-    std::cout << "Could not read " << filename << " ." << std::endl;
-  }
-
-  std::string content;
-  std::string line;
-  while (!in.eof())
-  {
-    std::getline(in, line);
-    content.append(line + "\n");
-  }
-
-  return content;
-}
-
-VertexArray loadOBJModelFromFile(const std::string& filename)
-{
-  std::cout << "Loading model \'" << filename << "\'." << std::endl;
-  
-  std::ifstream file(filename.c_str());
-  std::string line;
-
-  std::vector<glm::vec4> vertices;
-  std::vector<glm::vec3> normals;
-  std::vector<GLushort> indices;
-
-  while (std::getline(file, line))
-  {
-    Tokenizer tok(line);
-    std::vector<std::string> tokens = tok.tokenize(' ');
-    if (tokens.size() == 4)
-    {
-      std::string indentifer = tokens[0];
-      if (indentifer == "v")
-      {
-
-        float x = std::strtof(tokens[1].c_str(), NULL);
-        float y = std::strtof(tokens[2].c_str(), NULL);
-        float z = std::strtof(tokens[3].c_str(), NULL);
-
-        vertices.push_back(glm::vec4(x, y, z, 1.0));
-
-      } else if (indentifer == "vn")
-      {
-
-        float x = std::strtof(tokens[1].c_str(), NULL);
-        float y = std::strtof(tokens[2].c_str(), NULL);
-        float z = std::strtof(tokens[3].c_str(), NULL);
-
-        normals.push_back(glm::vec3(x, y, z));
-
-      } else if (indentifer == "f")
-      {
-        for (int i = 0; i < 4; i++)
-        {
-          Tokenizer facesplit(tokens[i]);
-          std::vector<std::string> face = facesplit.tokenize('/');
-          if (face.size() == 3)
-          {
-            GLushort indice = static_cast<GLushort>(std::strtoul(
-                face[0].c_str(), NULL, 0)) - 1;
-            indices.push_back(indice);
-          }
-        }
-      }
-    }
-  }
-
-  std::vector<Vertex4_3_2> vertex_list(vertices.size());
-
-  std::vector<glm::vec4>::iterator v;
-  std::vector<Vertex4_3_2>::iterator v1;
-
-  for (v = vertices.begin(), v1 = vertex_list.begin(); v < vertices.end();
-      ++v, ++v1)
-  {
-    v1->position = *v;
-  }
-
-  return VertexArray(GL_TRIANGLES,
-      vertex_list.data(), vertex_list.size(),
-      indices.data(), indices.size());
-}
 
 /******************************************************************************
  *
@@ -138,37 +43,6 @@ bool compileShader(Shader* shader, const std::string& source)
   }
   return true;
 }
-
-void initShaders()
-{
-  std::vector<Shader> shaders;
-
-  Shader v_shader(Shader::VERTEX);
-  Shader f_shader(Shader::FRAGMENT);
-
-  std::string v_shader_source_loc = "shaders/shader.vert";
-  std::string f_shader_source_loc = "shaders/shader.frag";
-  
-  std::string v_shader_source = getShaderSource(v_shader_source_loc);
-  std::string f_shader_source = getShaderSource(f_shader_source_loc);
-
-  compileShader(&v_shader, v_shader_source);
-  compileShader(&f_shader, f_shader_source);
-
-  shaders.push_back(v_shader);
-  shaders.push_back(f_shader);
-
-  if (!program.link(shaders))
-  {
-    std::cout << "=======================================" << std::endl;
-    std::cout << "Program compile error: " << std::endl;
-    std::cout << program.getLinkLog() << std::endl;
-    std::cout << "=======================================" << std::endl;
-  }
-
-  mvp_uniform_loc = program.getUniformLocation("mvp_mat");
-
-}
 /******************************************************************************
  *
  *	Callbacks
@@ -176,11 +50,18 @@ void initShaders()
  ******************************************************************************/
 void init()
 {
-  initShaders();
-  
   std::string terrain_file_loc = "models/terrain.obj";
-
-  terrain = loadOBJModelFromFile(terrain_file_loc);
+ 
+  VertexAttribute position  = {4, GL_FLOAT, GL_FALSE, 0};
+  VertexAttribute normal    = {3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3)};
+  VertexAttribute tex_coord = {2, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3)};
+  
+  AttributeSet attrs;
+  attrs.insert(AttrPair(0, position));
+  attrs.insert(AttrPair(1, normal));
+  attrs.insert(AttrPair(2, tex_coord));
+  
+  
 
   glEnable(GL_DEPTH_TEST);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -190,31 +71,13 @@ void display()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUseProgram(program.getID());
-
-  glm::mat4 view_mat;
-  glm::mat4 model_mat;
-
-  view_mat = glm::translate(view_mat, glm::vec3(0.0f, -50.0f, -100.0f));
-  view_mat = glm::rotate(view_mat, 45.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-
-  program.uniformMatrix4f(mvp_uniform_loc, proj * view_mat * model_mat);
-
-  glBindVertexArray(terrain.getID());
-
-  glDrawElements(terrain.getPrimitive(), terrain.getIndexCount(),
-  GL_UNSIGNED_SHORT, 0);
-
-  glBindVertexArray(0);
-
-  glUseProgram(0);
 }
 
 void resize(int width, int height)
 {
   glViewport(0, 0, width, height);
 
-  proj = glm::perspective(75.0f, (float) width / height, 0.01f, 2000.0f);
+  //proj = glm::perspective(75.0f, (float) width / height, 0.01f, 2000.0f);
 
 }
 
