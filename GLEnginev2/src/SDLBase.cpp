@@ -2,8 +2,6 @@
 
 #include "SDLBase.h"
 
-static bool quit_flag = false;
-
 static const char* WINDOW_TITLE = "OpenGL";
 
 static const int INIT_WINDOWX = 100;
@@ -29,12 +27,10 @@ void checkGLError(int line, const std::string& where)
 
 int main(int argc, char *argv[])
 {
-
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
   {
     std::cerr << "ERROR: SDL_Init() failed: ";
     std::cerr << SDL_GetError() << std::endl;
-
     return EXIT_FAILURE;
   }
 
@@ -51,7 +47,6 @@ int main(int argc, char *argv[])
   {
     std::cerr << "ERROR: SDL_CreateWindow() failed: ";
     std::cerr << SDL_GetError() << std::endl;
-
     return EXIT_FAILURE;
   }
 
@@ -81,6 +76,7 @@ int main(int argc, char *argv[])
   SDL_Event window_event;
   Uint32 last_time = 0;
   Uint32 now_time;
+  bool quit_flag = false;
   while (!quit_flag)
   {
     while (SDL_PollEvent(&window_event))
@@ -98,10 +94,9 @@ int main(int argc, char *argv[])
           quit_flag = true;
           break;
         default:
-          event(&window_event);
+          event(window_event);
           break;
       }
-
     }
     now_time = SDL_GetTicks();
     update(now_time - last_time);

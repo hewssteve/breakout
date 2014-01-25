@@ -8,14 +8,11 @@ class Component
 
   public:
 
-    Component(const std::string& entityID);
+    Component();
     virtual ~Component();
-
-    const std::string& getEntityID(void) const;
 
   private:
 
-    std::string _entityID;
 
 };
 

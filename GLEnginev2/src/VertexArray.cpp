@@ -2,7 +2,7 @@
 
 VertexArray::VertexArray(){}
 
-VertexArray::VertexArray(const BufferObject& vertbuf, const BufferObject& _elembuf,
+VertexArray::VertexArray(const BufferObject& vertbuf, const BufferObject& elembuf,
     const AttributeSet& attrs, GLsizei stride)
 {
   glGenVertexArrays(1, &_id);
@@ -18,7 +18,7 @@ VertexArray::VertexArray(const BufferObject& vertbuf, const BufferObject& _elemb
         attr.normalized, stride,
         reinterpret_cast<GLvoid*>(attr.offset));   
   }
-  glBindBuffer(_elembuf.getTarget(), _elembuf.getID());
+  glBindBuffer(elembuf.getTarget(), elembuf.getID());
 
   glBindVertexArray(0);
 }

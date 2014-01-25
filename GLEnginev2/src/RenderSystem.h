@@ -10,20 +10,20 @@
 
 class RenderSystem: public ComponentSystem
 {
+
   public:
+
     RenderSystem();
     virtual ~RenderSystem();
-    
+
     virtual void init(void);
-    
+
     virtual void update(float dt);
-    
+
   private:
-    
+
     ShaderProgram _shaderprogram;
-    
-    
-    
+
 };
 
 #endif

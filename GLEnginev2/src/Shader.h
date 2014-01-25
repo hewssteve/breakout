@@ -1,5 +1,5 @@
-#ifndef _SHADER_H
-#define _SHADER_H
+#ifndef _SHADER_H_
+#define _SHADER_H_
 
 #include <string>
 
@@ -7,6 +7,7 @@
 
 class Shader
 {
+
   public:
 
     enum shaderType

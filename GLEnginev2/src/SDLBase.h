@@ -1,5 +1,5 @@
-#ifndef _SDL_BASE_H
-#define _SDL_BASE_H
+#ifndef _SDL_BASE_H_
+#define _SDL_BASE_H_
 
 #include <string>
 
@@ -11,14 +11,6 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 
-/******************************************************************************
- *
- *   Callback functions
- *   
- *   
- *
- *****************************************************************************/
-
 void init();
 
 void display();
@@ -29,13 +21,7 @@ void update(int frame_time);
 
 void cleanup();
 
-void event(SDL_Event *event);
-
-/******************************************************************************
- *
- *   Misc functions
- *
- *****************************************************************************/
+void event(const SDL_Event& event);
 
 void checkGLError(int line, const std::string& where);
 

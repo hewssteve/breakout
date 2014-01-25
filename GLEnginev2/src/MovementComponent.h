@@ -6,8 +6,10 @@
 
 class MovementComponent: public Component
 {
+
   public:
-    MovementComponent(const std::string& entityID);
+
+    MovementComponent();
     virtual ~MovementComponent();
 
     const glm::vec3& getVelocity(void) const;

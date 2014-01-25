@@ -1,4 +1,3 @@
-
 #include <fstream>
 
 #include "SDLBase.h"
@@ -19,25 +18,23 @@ std::string getShaderSource(const std::string& filename)
   while (!in.eof())
   {
     std::getline(in, line);
-    content.append(line + "\n");
+    content.append(line);
   }
 
   return content;
 }
 
-
-
 MeshComponent loadOBJModelFromFile(const std::string& filename)
 {
   std::cout << "Loading model \'" << filename << "\'." << std::endl;
-  
+
   std::ifstream file(filename.c_str());
   std::string line;
-  
+
   std::vector<std::string> vert_lines;
   std::vector<std::string> norm_lines;
   std::vector<std::string> face_lines;
-  
+
   while (std::getline(file, line))
   {
     Tokenizer tok(line);
@@ -48,7 +45,8 @@ MeshComponent loadOBJModelFromFile(const std::string& filename)
       if (indentifer == "v")
       {
         vert_lines.push_back(line);
-      } else if (indentifer == "vn")
+      }
+      else if (indentifer == "vn")
       {
         /*
         float x = std::strtof(tokens[1].c_str(), NULL);
@@ -58,11 +56,11 @@ MeshComponent loadOBJModelFromFile(const std::string& filename)
         normals.push_back(glm::vec3(x, y, z));
         */
         norm_lines.push_back(line);
-      } else if (indentifer == "f")
+      }
+      else if (indentifer == "f")
       {
         face_lines.push_back(line);
         /*
-        
         for (int i = 0; i < 4; i++)
         {
           Tokenizer facesplit(tokens[i]);
@@ -75,25 +73,23 @@ MeshComponent loadOBJModelFromFile(const std::string& filename)
           }
         }
         */
-        
       }
     }
   }
   std::vector<Vertex4_3_2> vertex_list(vert_lines.size());
-  
+
   for(std::vector<std::string>::iterator i = vert_lines.begin(); i != vert_lines.end();
       ++i)
   {
     Tokenizer tok(*i);
     std::vector<std::string> tokens = tok.tokenize(' ');
-    
+
     float x = std::strtof(tokens[1].c_str(), NULL);
     float y = std::strtof(tokens[2].c_str(), NULL);
     float z = std::strtof(tokens[3].c_str(), NULL);
 
     Vertex4_3_2 vert;
-    vert.position = glm::vec4(x, y, z, 1.0);
-    
+    vert.position = glm::vec4(x, y, z, 1.0f);
     vertex_list.push_back(vert); 
   }
   

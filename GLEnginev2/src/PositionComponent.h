@@ -8,8 +8,9 @@ class PositionComponent: public Component
 {
 
   public:
-    PositionComponent(const std::string& entityID,
-        const glm::vec3& initial_pos);
+
+    PositionComponent();
+    PositionComponent(const glm::vec3& initial_pos);
     virtual ~PositionComponent();
 
     const glm::vec3& getPosition(void) const;

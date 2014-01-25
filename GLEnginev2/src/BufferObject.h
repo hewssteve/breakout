@@ -8,21 +8,21 @@ class BufferObject
 
   public:
     
-    enum BufTarget
+    enum BufferTarget
     {
       ARRAY_BUFFER,
       ELEMENT_BUFFER
     };
     
-    
     BufferObject();
-    BufferObject(BufTarget target, GLsizeiptr size, GLenum usage);
+    BufferObject(BufferTarget target, GLsizeiptr size, GLenum usage);
     virtual ~BufferObject();
 
     GLuint getID(void) const;
     GLenum getTarget(void) const;
 
     void bufferData(const GLvoid* data);
+    void bufferData(const GLvoid* data, int offset, int size);
 
   private:
 

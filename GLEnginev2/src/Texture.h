@@ -3,16 +3,11 @@
 
 #include "SDLBase.h"
 
-/******************************************************************************
- *
- *   Texture 
- *
- *
- *
- *****************************************************************************/
 class Texture
 {
+
   public:
+
     Texture();
     Texture(SDL_Surface* surface, GLenum format, GLint internalformat);
     virtual ~Texture();

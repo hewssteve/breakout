@@ -1,4 +1,3 @@
-
 #include "ComponentSystem.h"
 
 ComponentSystem::ComponentSystem()

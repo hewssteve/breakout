@@ -9,13 +9,16 @@
  */
 class Tokenizer
 {
+
   public:
+
     Tokenizer();
     Tokenizer(std::string line);
     
     std::vector<std::string> tokenize(char delim);
 
   private:
+
     std::string line;
 };
 

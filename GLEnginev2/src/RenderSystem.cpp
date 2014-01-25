@@ -1,14 +1,9 @@
-
 #include "RenderSystem.h"
 
-RenderSystem::RenderSystem()
-{
+RenderSystem::RenderSystem(){}
 
-}
+RenderSystem::~RenderSystem(){}
 
-RenderSystem::~RenderSystem()
-{
-}
 
 void RenderSystem::init(void)
 {
@@ -33,7 +28,6 @@ void RenderSystem::init(void)
   {
     // shader program link error
   }
-  
 }
 
 void RenderSystem::update(float dt)

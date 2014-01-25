@@ -1,7 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
 #include <vector>
 #include <map>
 #include <iterator>
@@ -13,41 +9,28 @@
 #include "Tokenizer.h"
 #include "MeshComponent.h"
 
-/******************************************************************************
- *
- *	Misc Functions
- *
- ******************************************************************************/
-
-/******************************************************************************
- *
- *	Init Functions
- *
- ******************************************************************************/
-bool compileShader(Shader* shader, const std::string& source)
+bool compileShader(Shader& shader, const std::string& source)
 {
   std::cout << "==============================" << std::endl;
   std::cout << "Shader source: " << std::endl;
   std::cout << source << std::endl;
   
-  shader->loadSource(source.c_str());
+  shader.loadSource(source.c_str());
 
-  if (!shader->compile())
+  if (!shader.compile())
   {
     std::cout << "=======================================" << std::endl;
-    std::cout << "Shader compile error: (" << shader->getID() << ")"
+    std::cout << "Shader compile error: (" << shader.getID() << ")"
         << std::endl;
-    std::cout << shader->getCompileLog() << std::endl;
+    std::cout << shader.getCompileLog() << std::endl;
     std::cout << "=======================================" << std::endl;
     return false;
   }
   return true;
 }
-/******************************************************************************
- *
- *	Callbacks
- *
- ******************************************************************************/
+
+/* ----------------------------- Callbacks --------------------------------- */
+
 void init()
 {
   std::string terrain_file_loc = "models/terrain.obj";
@@ -61,10 +44,11 @@ void init()
   attrs.insert(AttrPair(1, normal));
   attrs.insert(AttrPair(2, tex_coord));
   
-  
-
   glEnable(GL_DEPTH_TEST);
   glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+
+
 }
 
 void display()
@@ -110,15 +94,15 @@ void keyUp(SDL_Keycode key)
   }
 }
 
-void event(SDL_Event *event)
+void event(const SDL_Event& event)
 {
-  switch (event->type)
+  switch (event.type)
   {
     case SDL_KEYDOWN:
-      keyDown(event->key.keysym.sym);
+      keyDown(event.key.keysym.sym);
       break;
     case SDL_KEYUP:
-      keyUp(event->key.keysym.sym);
+      keyUp(event.key.keysym.sym);
       break;
     default:
       break;
