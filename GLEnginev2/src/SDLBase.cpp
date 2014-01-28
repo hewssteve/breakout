@@ -45,17 +45,17 @@ int main(int argc, char *argv[])
 
   if (window == NULL)
   {
-    std::cerr << "ERROR: SDL_CreateWindow() failed: ";
-    std::cerr << SDL_GetError() << std::endl;
+    std::cout << "ERROR: SDL_CreateWindow() failed: ";
+    std::cout << SDL_GetError() << std::endl;
     return EXIT_FAILURE;
   }
 
   SDL_GLContext context = SDL_GL_CreateContext(window);
   if (context == NULL)
   {
-    std::cerr << "ERROR: SDL_GL_CreateContext() failed: ";
-    std::cerr << SDL_GetError();
-    std::cerr << "-- requested GL version: " << MAJOR_VERSION << "."
+    std::cout << "ERROR: SDL_GL_CreateContext() failed: ";
+    std::cout << SDL_GetError();
+    std::cout << "-- requested GL version: " << MAJOR_VERSION << "."
         << MINOR_VERSION << std::endl;
     return EXIT_FAILURE;
   }

@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include <SDL2/SDL.h>
+
 class WindowManager
 {
 
@@ -27,6 +29,9 @@ class WindowManager
     int _window_width;
 
     bool _isFullscreen;
+
+    SDL_Window* _window;
+    SDL_GLContext _GLcontext;
 
 };
 
