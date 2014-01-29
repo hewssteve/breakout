@@ -16,8 +16,7 @@ class EngineMain
     bool init(void);
     void update(float time, float dt, float alpha);
     void mainLoop(void);
-
-    void addSystem(void);
+    void addSystem(ComponentSystem* system);
 
   private:
 

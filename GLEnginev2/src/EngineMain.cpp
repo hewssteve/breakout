@@ -1,6 +1,7 @@
 #include "EngineMain.h"
 
 EngineMain::EngineMain()
+:_systems(5)
 {
 }
 
