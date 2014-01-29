@@ -1,6 +1,8 @@
 #ifndef _MESHCOMPONENT_H_
 #define _MESHCOMPONENT_H_
 
+#include <GL/glew.h>
+
 #include "VertexArray.h"
 #include "BufferObject.h"
 

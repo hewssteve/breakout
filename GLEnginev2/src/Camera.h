@@ -1,7 +1,7 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
-#include "SDLBase.h"
+#include <glm/glm.hpp>
 
 class Camera
 {

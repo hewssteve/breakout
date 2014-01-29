@@ -2,8 +2,8 @@
 #define _VERTEXARRAY_H_
 
 #include <map>
+#include <gl/glew.h>
 
-#include "SDLBase.h"
 #include "BufferObject.h"
 
 typedef struct

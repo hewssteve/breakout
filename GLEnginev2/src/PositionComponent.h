@@ -1,7 +1,8 @@
 #ifndef _POSITIONCOMPONENT_H_
 #define _POSITIONCOMPONENT_H_
 
-#include "SDLBase.h"
+#include <glm/glm.hpp>
+
 #include "Component.h"
 
 class PositionComponent: public Component

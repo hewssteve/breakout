@@ -1,6 +1,5 @@
 #include <fstream>
 
-#include "SDLBase.h"
 #include "MeshComponent.h"
 #include "FileUtils.h"
 

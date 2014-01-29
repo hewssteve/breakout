@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <gl/glew.h>
 
-#include "SDLBase.h"
 #include "Shader.h"
 
 class ShaderProgram

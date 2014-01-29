@@ -1,7 +1,8 @@
 #ifndef _MOVEMENTCOMPONENT_H_
 #define _MOVEMENTCOMPONENT_H_
 
-#include "SDLBase.h"
+#include <glm/glm.hpp>
+
 #include "Component.h"
 
 class MovementComponent: public Component

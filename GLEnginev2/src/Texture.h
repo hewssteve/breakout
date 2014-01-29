@@ -1,7 +1,7 @@
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
-#include "SDLBase.h"
+#include <gl/glew.h>
 
 class Texture
 {

@@ -70,8 +70,6 @@ bool WindowManager::init(int width, int height, bool fullscreen)
     std::cout << glewGetErrorString(error) << std::endl;
     return false;
   }
-  checkGLError(__LINE__, "main()[glew bug]");
-
 
   setFullscreen(fullscreen);
 

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "SDLBase.h"
+#include <gl/glew.h>
 
 class Shader
 {
