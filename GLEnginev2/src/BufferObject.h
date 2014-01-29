@@ -1,7 +1,7 @@
 #ifndef _BUFFEROBJECT_H_
 #define _BUFFEROBJECT_H_
 
-#include "SDLBase.h"
+#include <gl/glew.h>
 
 class BufferObject
 {
