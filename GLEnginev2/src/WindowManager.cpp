@@ -23,13 +23,24 @@ bool WindowManager::init(int width, int height, bool fullscreen)
 
   Uint32 flags = SDL_INIT_EVERYTHING;
 
-  if(SDL_Init(flags) < 0)
+  if(SDL_Init(flags) > 0)
+  {
+    success = true;
+  }
+  else
   {
 
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+    SDL_Window* window = SDL_CreateWindow("Test", 0,
+         0, width, height, 0);
+
+    setFullscreen(fullscreen);
   }
-
-  setFullscreen(fullscreen);
-
 
   return success;
 }
@@ -37,6 +48,8 @@ bool WindowManager::init(int width, int height, bool fullscreen)
 void WindowManager::setFullscreen(bool fullscreen)
 {
   _isFullscreen = fullscreen;
+
+  SDL_SetWindowFullscreen(_window, 0);
 
 }
 
