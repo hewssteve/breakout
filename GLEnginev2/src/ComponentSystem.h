@@ -12,7 +12,7 @@ class ComponentSystem
 
     virtual void init(void) = 0;
 
-    virtual void update(float dt) = 0; 
+    virtual void update(float time, float dt, float alpha) = 0;
 
 };
 

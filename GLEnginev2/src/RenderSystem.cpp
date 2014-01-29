@@ -4,7 +4,6 @@ RenderSystem::RenderSystem(){}
 
 RenderSystem::~RenderSystem(){}
 
-
 void RenderSystem::init(void)
 {
   std::vector<Shader> shaders;
@@ -30,7 +29,7 @@ void RenderSystem::init(void)
   }
 }
 
-void RenderSystem::update(float dt)
+void RenderSystem::update(float time, float dt, float alpha)
 {
   
   

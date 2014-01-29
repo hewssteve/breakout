@@ -11,15 +11,14 @@ class WindowManager
   public:
 
     WindowManager();
-    WindowManager(int width, int height, bool fullscreen);
     virtual ~WindowManager();
 
-    bool init(void);
+    bool init(int width, int height, bool fullscreen);
     void setFullscreen(bool fullscreen);
     void setCaption(const std::string& caption);
+    Uint32 getTime(void);
 
     bool isFullscreen(void) const;
-
     int getWindowHeight(void) const;
     int getWindowWidth(void) const;
 

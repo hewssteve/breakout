@@ -13,14 +13,18 @@ class EngineMain
     EngineMain();
     virtual ~EngineMain();
 
-    void update(float dt) const;
-    void mainLoop(void) const;
+    bool init(void);
+    void update(float time, float dt, float alpha);
+    void mainLoop(void);
 
     void addSystem(void);
 
   private:
 
     std::vector<ComponentSystem> _systems;
+    RenderSystem _rendersys;
+
+    WindowManager _window;
 
 };
 

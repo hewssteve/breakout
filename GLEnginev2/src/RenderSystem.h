@@ -4,9 +4,7 @@
 #include <string>
 
 #include "ComponentSystem.h"
-#include "Shader.h"
 #include "ShaderProgram.h"
-#include "FileUtils.h"
 
 class RenderSystem: public ComponentSystem
 {
@@ -18,7 +16,7 @@ class RenderSystem: public ComponentSystem
 
     virtual void init(void);
 
-    virtual void update(float dt);
+    virtual void update(float time, float dt, float alpha);
 
   private:
 
