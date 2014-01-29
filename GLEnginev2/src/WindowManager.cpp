@@ -1,48 +1,82 @@
+#include <GL/glew.h>
+#include <SDL2/SDL.h>
+
 #include "WindowManager.h"
 
 WindowManager::WindowManager(){}
 
-/*
-WindowManager::WindowManager(int width, int height, bool fullscreen)
-:
-    _window_width(width),
-    _window_height(height),
-    _isFullscreen(fullscreen),
-    _window(NULL),
-    _GLcontext(NULL)
+WindowManager::~WindowManager()
 {
-
+  SDL_GL_DeleteContext(context);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
 }
-*/
+
 bool WindowManager::init(int width, int height, bool fullscreen)
 {
-  bool success = false;
+  static const char* WINDOW_TITLE = "OpenGL";
 
-  this->_window_height = height;
-  this->_window_width = width;
+  static const int INIT_WINDOWX = 100;
+  static const int INIT_WINDOWY = 100;
+
+  static const int INIT_WINDOW_WIDTH = 800;
+  static const int INIT_WINDOW_HEIGHT = 600;
+
+  static const int MAJOR_VERSION = 3;
+  static const int MINOR_VERSION = 3;
+
+  static const Uint32 WINDOW_FLAGS = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
+
+  _window_height = height;
+  _window_width = width;
 
   Uint32 flags = SDL_INIT_EVERYTHING;
 
   if(SDL_Init(flags) > 0)
   {
-    success = true;
+    return false;
   }
-  else
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, MAJOR_VERSION);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, MINOR_VERSION);
+
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+  _window = SDL_CreateWindow(WINDOW_TITLE, INIT_WINDOWX,
+  INIT_WINDOWY, INIT_WINDOW_WIDTH, INIT_WINDOW_HEIGHT, WINDOW_FLAGS);
+
+  if (_window == NULL)
   {
-
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-    SDL_Window* window = SDL_CreateWindow("Test", 0,
-         0, width, height, 0);
-
-    setFullscreen(fullscreen);
+    std::cout << "ERROR: SDL_CreateWindow() failed: ";
+    std::cout << SDL_GetError() << std::endl;
+    return false;
   }
 
-  return success;
+  _GLcontext = SDL_GL_CreateContext(_window);
+  if (_GLcontext == NULL)
+  {
+    std::cout << "ERROR: SDL_GL_CreateContext() failed: ";
+    std::cout << SDL_GetError();
+    std::cout << "-- requested GL version: " << MAJOR_VERSION << "."
+        << MINOR_VERSION << std::endl;
+    return false;
+  }
+
+  glewExperimental = GL_TRUE;
+  GLenum error = glewInit();
+  if (error != GLEW_OK)
+  {
+    std::cout << "ERROR: glewInit() failure : ";
+    std::cout << glewGetErrorString(error) << std::endl;
+    return false;
+  }
+  checkGLError(__LINE__, "main()[glew bug]");
+
+
+  setFullscreen(fullscreen);
+
+
+  return true;
 }
 
 void WindowManager::setFullscreen(bool fullscreen)
@@ -61,10 +95,5 @@ void WindowManager::setCaption(const std::string& caption)
 Uint32 WindowManager::getTime(void)
 {
   return SDL_GetTicks();
-}
-
-WindowManager::~WindowManager()
-{
-
 }
 
