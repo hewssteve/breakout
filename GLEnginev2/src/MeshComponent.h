@@ -5,6 +5,7 @@
 
 #include "VertexArray.h"
 #include "BufferObject.h"
+#include "Component.h"
 
 typedef struct
 {

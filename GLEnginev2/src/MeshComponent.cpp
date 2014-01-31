@@ -9,16 +9,16 @@ MeshComponent::MeshComponent(PrimType type, const GLvoid* vertices,
     Component(),
     _vertex_count(vertex_count),
     _indice_count(indice_count),
-    _vert_buffer(GL_ARRAY_BUFFER, 0, GL_STATIC_DRAW),
-    _elem_buffer(GL_ELEMENT_ARRAY_BUFFER, 0, GL_STATIC_DRAW),
+    _vert_buffer(BufferObject::ARRAY_BUFFER, 0, GL_STATIC_DRAW),
+    _elem_buffer(BufferObject::ELEMENT_BUFFER, 0, GL_STATIC_DRAW),
     _vao(_vert_buffer, _elem_buffer, attrs, stride)
 {
   switch(type)
   {
-    case PrimType::TRIANGLES:
+    case MeshComponent::TRIANGLES:
       _primitive = GL_TRIANGLES;
       break;
-    case PrimType::POINTS:
+    case MeshComponent::POINTS:
       _primitive = GL_POINTS;
       break;
   };

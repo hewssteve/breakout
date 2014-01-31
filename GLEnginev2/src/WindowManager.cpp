@@ -1,14 +1,16 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 
+#include <iostream>
+
 #include "WindowManager.h"
 
 WindowManager::WindowManager(){}
 
 WindowManager::~WindowManager()
 {
-  SDL_GL_DeleteContext(context);
-  SDL_DestroyWindow(window);
+  SDL_GL_DeleteContext(_GLcontext);
+  SDL_DestroyWindow(_window);
   SDL_Quit();
 }
 
@@ -75,6 +77,12 @@ bool WindowManager::init(int width, int height, bool fullscreen)
 
 
   return true;
+}
+
+void WindowManager::swapGLBuffer(void)
+{
+  std::cout << "swap buffer " << std::endl;
+  SDL_GL_SwapWindow(_window);
 }
 
 void WindowManager::setFullscreen(bool fullscreen)

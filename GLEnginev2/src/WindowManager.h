@@ -18,6 +18,8 @@ class WindowManager
     void setCaption(const std::string& caption);
     Uint32 getTime(void);
 
+    void swapGLBuffer(void);
+
     bool isFullscreen(void) const;
     int getWindowHeight(void) const;
     int getWindowWidth(void) const;

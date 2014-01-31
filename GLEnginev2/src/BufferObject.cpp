@@ -9,10 +9,10 @@ BufferObject::BufferObject(BufferTarget target, GLsizeiptr size, GLenum usage)
 {
   switch(target)
   {
-    case BufferTarget::ARRAY_BUFFER:
+    case BufferObject::ARRAY_BUFFER:
       _target = GL_ARRAY_BUFFER;
       break;
-    case BufferTarget::ELEMENT_BUFFER:
+    case BufferObject::ELEMENT_BUFFER:
       _target = GL_ELEMENT_ARRAY_BUFFER;
       break;
   };

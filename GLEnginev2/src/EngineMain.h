@@ -4,13 +4,15 @@
 #include <vector>
 
 #include "ComponentSystem.h"
+#include "RenderSystem.h"
+#include "WindowManager.h"
 
 class EngineMain
 {
 
   public:
 
-    EngineMain();
+    EngineMain(WindowManager* window);
     virtual ~EngineMain();
 
     bool init(void);
@@ -18,12 +20,17 @@ class EngineMain
     void mainLoop(void);
     void addSystem(ComponentSystem* system);
 
+    void setWindowManager(WindowManager* window);
+
   private:
 
-    std::vector<ComponentSystem> _systems;
+    std::vector<ComponentSystem*> _systems;
+
+    WindowManager* _window;
+
     RenderSystem _rendersys;
 
-    WindowManager _window;
+
 
 };
 

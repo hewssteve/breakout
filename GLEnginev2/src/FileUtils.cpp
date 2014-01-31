@@ -1,6 +1,9 @@
 #include <fstream>
+#include <iostream>
+#include <vector>
 
 #include "MeshComponent.h"
+#include "Tokenizer.h"
 #include "FileUtils.h"
 
 std::string getShaderSource(const std::string& filename)

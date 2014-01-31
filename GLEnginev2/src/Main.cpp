@@ -1,5 +1,7 @@
 #include "EngineMain.h"
 
+#include <iostream>
+#include <GL/glew.h>
 /*
 bool compileShader(Shader& shader, const std::string& source)
 {
@@ -23,11 +25,23 @@ bool compileShader(Shader& shader, const std::string& source)
 */
 int main(int argc, char *argv[])
 {
-  EngineMain engine;
+  std::cout << "Main()" << std::endl;
+
+  WindowManager window;
+
+  if(!window.init(800,600,false))
+  {
+    std::cout << "Window failed to init." << std::endl;
+    return -1;
+  }
+
+  EngineMain engine(&window);
   if(!engine.init())
   {
+    std::cout << "Engine failed to init." << std::endl;
     return -1;
   }
   engine.mainLoop();
+
   return 0;
 }

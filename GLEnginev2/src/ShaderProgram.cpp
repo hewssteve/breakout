@@ -1,5 +1,7 @@
 #include "ShaderProgram.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 ShaderProgram::ShaderProgram()
 {
   _id = glCreateProgram();

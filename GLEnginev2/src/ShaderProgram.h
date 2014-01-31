@@ -5,6 +5,9 @@
 #include <vector>
 #include <gl/glew.h>
 
+#include <glm/glm.hpp>
+
+
 #include "Shader.h"
 
 class ShaderProgram

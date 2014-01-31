@@ -3,6 +3,7 @@
 
 #include <map>
 #include <gl/glew.h>
+#include <glm/glm.hpp>
 
 #include "BufferObject.h"
 
