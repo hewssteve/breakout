@@ -19,6 +19,7 @@ class WindowManager
     Uint32 getTime(void);
 
     void swapGLBuffer(void);
+    bool pollEvent(SDL_Event* event);
 
     bool isFullscreen(void) const;
     int getWindowHeight(void) const;

@@ -16,7 +16,7 @@ WindowManager::~WindowManager()
 
 bool WindowManager::init(int width, int height, bool fullscreen)
 {
-  static const char* WINDOW_TITLE = "OpenGL";
+  static const char* WINDOW_TITLE = "wat";
 
   static const int INIT_WINDOWX = 100;
   static const int INIT_WINDOWY = 100;
@@ -81,8 +81,19 @@ bool WindowManager::init(int width, int height, bool fullscreen)
 
 void WindowManager::swapGLBuffer(void)
 {
-  std::cout << "swap buffer " << std::endl;
   SDL_GL_SwapWindow(_window);
+}
+
+bool WindowManager::pollEvent(SDL_Event* event)
+{
+  if(SDL_PollEvent(event))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 void WindowManager::setFullscreen(bool fullscreen)
