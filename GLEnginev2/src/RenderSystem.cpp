@@ -55,7 +55,7 @@ void RenderSystem::update(World& world, float time, float dt, float alpha)
     int pos_handle = ent.getCompHandle(Entity::POSITION);
     int mesh_handle = ent.getCompHandle(Entity::MESH);
 
-    if(mesh_handle != -1 && pos_handle != -1)
+    if(mesh_handle != Entity::NO_COMPONENT && pos_handle != Entity::NO_COMPONENT)
     {
       MeshComponent comp = meshlist[mesh_handle];
 

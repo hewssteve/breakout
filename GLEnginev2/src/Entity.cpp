@@ -1,10 +1,11 @@
 #include "Entity.h"
 
 unsigned Entity::MAX_COMPONENTS = 10;
+int Entity::NO_COMPONENT = -1;
 
 Entity::Entity()
 {
-  std::fill_n(_comp_handles, MAX_COMPONENTS, -1);
+  std::fill_n(_comp_handles, MAX_COMPONENTS, NO_COMPONENT);
 
 }
 

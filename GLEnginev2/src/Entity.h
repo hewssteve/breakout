@@ -7,6 +7,7 @@ class Entity
   public:
 
     static unsigned MAX_COMPONENTS;
+    static int NO_COMPONENT;
 
     enum CompType
     {
