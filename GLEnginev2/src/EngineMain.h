@@ -18,11 +18,14 @@ class EngineMain
     bool init(void);
     void update(float time, float dt, float alpha);
     void mainLoop(void);
+
     void addSystem(ComponentSystem* system);
 
     void setWindowManager(WindowManager* window);
 
   private:
+
+    World _world;
 
     std::vector<ComponentSystem*> _systems;
 
