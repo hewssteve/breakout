@@ -58,19 +58,16 @@ void RenderSystem::update(World& world, float time, float dt, float alpha)
     if(mesh_handle != Entity::NO_COMPONENT && pos_handle != Entity::NO_COMPONENT)
     {
       MeshComponent comp = meshlist[mesh_handle];
+      Mesh mesh = comp.getMesh();
 
+      glBindVertexArray(mesh.getVAO().getID());
 
-
-      glBindVertexArray(comp.getVAOID());
-
-      GLenum prim = comp.getMesh()->getPrimitive();
-      GLsizei count = comp.getMesh()->getIndiceCount();
+      GLenum prim = mesh.getPrimitive();
+      GLsizei count = mesh.getIndiceCount();
 
       glDrawElements(prim, count, GL_UNSIGNED_SHORT, 0);
 
       glBindVertexArray(0);
-
-
     }
 
   }

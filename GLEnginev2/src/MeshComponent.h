@@ -15,7 +15,6 @@ class MeshComponent : public Component
     MeshComponent(Mesh* mesh);
     virtual ~MeshComponent();
 
-    GLuint getVAOID(void) const;
     Mesh* getMesh(void) const;
 
 
