@@ -5,7 +5,7 @@
 
 std::string getShaderSource(const std::string& filename);
 
-MeshComponent loadOBJModelFromFile(const std::string& filename);
+Mesh loadOBJModelFromFile(const std::string& filename);
 
 
 

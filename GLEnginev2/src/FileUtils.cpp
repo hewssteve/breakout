@@ -5,6 +5,27 @@
 #include "MeshComponent.h"
 #include "Tokenizer.h"
 #include "FileUtils.h"
+/*
+bool compileShader(Shader& shader, const std::string& source)
+{
+  std::cout << "==============================" << std::endl;
+  std::cout << "Shader source: " << std::endl;
+  std::cout << source << std::endl;
+
+  shader.loadSource(source.c_str());
+
+  if (!shader.compile())
+  {
+    std::cout << "=======================================" << std::endl;
+    std::cout << "Shader compile error: (" << shader.getID() << ")"
+        << std::endl;
+    std::cout << shader.getCompileLog() << std::endl;
+    std::cout << "=======================================" << std::endl;
+    return false;
+  }
+  return true;
+}
+*/
 
 std::string getShaderSource(const std::string& filename)
 {
@@ -26,7 +47,7 @@ std::string getShaderSource(const std::string& filename)
   return content;
 }
 
-MeshComponent loadOBJModelFromFile(const std::string& filename)
+Mesh loadOBJModelFromFile(const std::string& filename)
 {
   std::cout << "Loading model \'" << filename << "\'." << std::endl;
 
@@ -95,7 +116,7 @@ MeshComponent loadOBJModelFromFile(const std::string& filename)
     vertex_list.push_back(vert); 
   }
   
-  MeshComponent comp;
+  Mesh comp;
   
   return comp; 
 }
