@@ -1,10 +1,9 @@
 #ifndef _RENDERSYSTEM_H_
 #define _RENDERSYSTEM_H_
 
-#include <string>
-
 #include "ComponentSystem.h"
 #include "ShaderProgram.h"
+#include "World.h"
 
 class RenderSystem: public ComponentSystem
 {
@@ -16,7 +15,7 @@ class RenderSystem: public ComponentSystem
 
     virtual void init(void);
 
-    virtual void update(float time, float dt, float alpha);
+    virtual void update(World& world, float time, float dt, float alpha);
 
   private:
 

@@ -32,15 +32,50 @@ void RenderSystem::init(void)
     shader program link error
   }
   */
-  glClearColor(0.0f, 0.3f, 0.7f, 1.0f);
+  glClearColor(0.0f, 0.4f, 0.5f, 1.0f);
 
 }
 
-void RenderSystem::update(float time, float dt, float alpha)
+void RenderSystem::update(World& world, float time, float dt, float alpha)
 {
-  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   
+  std::vector<Entity> entlist = world.getEntityList();
 
+  std::vector<MeshComponent> meshlist = world.getMeshComponents();
+
+
+  glUseProgram(_shaderprogram.getID());
+
+  for(std::vector<Entity>::iterator i = entlist.begin(); i != entlist.end();
+      ++i)
+  {
+    Entity ent = *i;
+
+    int pos_handle = ent.getCompHandle(Entity::POSITION);
+    int mesh_handle = ent.getCompHandle(Entity::MESH);
+
+    if(mesh_handle != -1 && pos_handle != -1)
+    {
+      MeshComponent comp = meshlist[mesh_handle];
+
+
+
+      glBindVertexArray(comp.getVAOID());
+
+      GLenum prim = comp.getMesh()->getPrimitive();
+      GLsizei count = comp.getMesh()->getIndiceCount();
+
+      glDrawElements(prim, count, GL_UNSIGNED_SHORT, 0);
+
+      glBindVertexArray(0);
+
+
+    }
+
+  }
+
+  glUseProgram(0);
 
 }
 
