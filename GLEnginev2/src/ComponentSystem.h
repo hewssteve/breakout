@@ -1,6 +1,8 @@
 #ifndef _COMPONENTSYSTEM_H_
 #define _COMPONENTSYSTEM_H_
 
+#include "World.h"
+
 class ComponentSystem
 {
 
@@ -12,7 +14,7 @@ class ComponentSystem
 
     virtual void init(void) = 0;
 
-    virtual void update(float time, float dt, float alpha) = 0;
+    virtual void update(World& world, float time, float dt, float alpha) = 0;
 
 };
 
