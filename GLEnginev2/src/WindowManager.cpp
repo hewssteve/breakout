@@ -86,14 +86,7 @@ void WindowManager::swapGLBuffer(void)
 
 bool WindowManager::pollEvent(SDL_Event* event)
 {
-  if(SDL_PollEvent(event))
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return SDL_PollEvent(event);
 }
 
 void WindowManager::setFullscreen(bool fullscreen)
