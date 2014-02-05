@@ -21,7 +21,7 @@ GLuint ShaderProgram::getID() const
 bool ShaderProgram::link(const std::vector<Shader>& shaders)
 {
   std::vector<Shader>::const_iterator i;
-  for (i = shaders.begin(); i != shaders.end(); i++)
+  for (i = shaders.begin(); i != shaders.end(); ++i)
   {
     glAttachShader(_id, i->getID());
   }
