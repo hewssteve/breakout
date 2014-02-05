@@ -1,5 +1,7 @@
 #include "Shader.h"
 
+#include <cassert>
+
 Shader::Shader(shaderType type)
 {
   GLenum gl_type;
@@ -34,6 +36,7 @@ Shader::shaderType Shader::getType(void) const
 
 void Shader::loadSource(const GLchar* source)
 {
+  assert(source != NULL);
   m_source = source;
   /*
    * TODO: get GLSL version from source

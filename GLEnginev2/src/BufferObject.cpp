@@ -1,5 +1,7 @@
 #include "BufferObject.h"
 
+#include <cassert>
+
 BufferObject::BufferObject(){}
 
 BufferObject::BufferObject(BufferTarget target, GLsizeiptr size, GLenum usage)
@@ -44,6 +46,7 @@ void BufferObject::bufferData(const GLvoid* data)
 
 void BufferObject::bufferData(const GLvoid* data, int offset, int size)
 {
+  assert(data != NULL);
   glBindBuffer(_target, _id);
   glBufferSubData(_target, offset, size, data);
   glBindBuffer(_target, 0);

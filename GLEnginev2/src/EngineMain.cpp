@@ -1,13 +1,15 @@
 #include "EngineMain.h"
 
 #include <SDL2/SDL.h>
-
+//#define NDEBUG
+#include <cassert>
 // temp for debug
 #include <iostream>
 
 EngineMain::EngineMain(WindowManager* window)
 {
-  this->_window = window;
+  assert(window != NULL);
+  _window = window;
 }
 
 EngineMain::~EngineMain()
@@ -15,6 +17,7 @@ EngineMain::~EngineMain()
   for(std::vector<ComponentSystem*>::iterator i = _systems.begin();
       i != _systems.end(); ++i)
   {
+    assert(*i != NULL);
     delete *i;
   }
 }
@@ -38,6 +41,7 @@ void EngineMain::update(float time, float dt, float alpha)
       i != _systems.end(); ++i)
   {
     ComponentSystem* sys = *i;
+    assert(sys != NULL);
     sys->update(_world, time, dt, alpha);
   }
 }

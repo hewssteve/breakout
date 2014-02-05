@@ -1,4 +1,7 @@
+#include <cassert>
+
 #include "MeshComponent.h"
+
 
 MeshComponent::MeshComponent()
 :
@@ -16,5 +19,6 @@ MeshComponent::~MeshComponent(){}
 
 Mesh* MeshComponent::getMesh(void) const
 {
+  assert(_mesh != NULL);
   return _mesh;
 }
