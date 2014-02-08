@@ -24,8 +24,8 @@ bool WindowManager::init(int width, int height, bool fullscreen)
   static const int INIT_WINDOW_WIDTH = 800;
   static const int INIT_WINDOW_HEIGHT = 600;
 
-  static const int MAJOR_VERSION = 3;
-  static const int MINOR_VERSION = 3;
+  static const int MAJOR_VERSION = 2;
+  static const int MINOR_VERSION = 0;
 
   static const Uint32 WINDOW_FLAGS = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
 

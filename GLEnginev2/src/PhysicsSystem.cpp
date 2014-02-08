@@ -39,8 +39,8 @@ void PhysicsSystem::update(World& world, float time, float dt, float alpha)
       MovementComponent* v = NULL;
       PositionComponent* d = NULL;
 
-      d = &move_complist[mov_handle];
-      v = &pos_complist[pos_handle];
+      v = &move_complist[mov_handle];
+      d = &pos_complist[pos_handle];
 
       assert(v != NULL);
       assert(d != NULL);

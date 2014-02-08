@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 #include "MeshComponent.h"
 #include "Tokenizer.h"
@@ -107,9 +108,9 @@ Mesh loadOBJModelFromFile(const std::string& filename)
     Tokenizer tok(*i);
     std::vector<std::string> tokens = tok.tokenize(' ');
 
-    float x = std::strtof(tokens[1].c_str(), NULL);
-    float y = std::strtof(tokens[2].c_str(), NULL);
-    float z = std::strtof(tokens[3].c_str(), NULL);
+    float x = std::strtod(tokens[1].c_str(), NULL);
+    float y = std::strtod(tokens[2].c_str(), NULL);
+    float z = std::strtod(tokens[3].c_str(), NULL);
 
     Vertex4_3_2 vert;
     vert.position = glm::vec4(x, y, z, 1.0f);
