@@ -25,7 +25,7 @@ class Entity
   private:
 
     int _handle;
-    int _comp_handles[MAX_COMPONENTS];
+    int _comp_handles[10];
 
 };
 

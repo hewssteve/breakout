@@ -6,6 +6,8 @@
 // temp for debug
 #include <iostream>
 
+#include "PhysicsSystem.h"
+
 EngineMain::EngineMain(WindowManager* window)
 {
   assert(window != NULL);

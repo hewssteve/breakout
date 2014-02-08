@@ -14,12 +14,7 @@ class PositionComponent: public Component
     PositionComponent(const glm::vec3& initial_pos);
     virtual ~PositionComponent();
 
-    const glm::vec3& getPosition(void) const;
-    void setPosition(const glm::vec3& position);
-
-  private:
-
-    glm::vec3 _position;
+    glm::vec3 _pos;
 
 };
 

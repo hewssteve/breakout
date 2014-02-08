@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+#include <algorithm>
+
 unsigned Entity::MAX_COMPONENTS = 10;
 int Entity::NO_COMPONENT = -1;
 

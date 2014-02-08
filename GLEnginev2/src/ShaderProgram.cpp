@@ -56,42 +56,43 @@ const std::string& ShaderProgram::getLinkLog(void) const
   return _link_log;
 }
 
-GLuint ShaderProgram::getUniformLocation(const std::string& location_name) const
+GLint ShaderProgram::getUniformLocation(const std::string& location_name) const
 {
+  std::cout << location_name.c_str() << std::endl;
   return glGetUniformLocation(_id, location_name.c_str());
 }
 
-void ShaderProgram::uniformMatrix4f(GLuint location, const glm::mat4& mat) const
+void ShaderProgram::uniformMatrix4f(GLint location, const glm::mat4& mat) const
 {
   glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-void ShaderProgram::uniformMatrix3f(GLuint location, const glm::mat3& mat) const
+void ShaderProgram::uniformMatrix3f(GLint location, const glm::mat3& mat) const
 {
   glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-void ShaderProgram::uniformMatrix2f(GLuint location, const glm::mat2& mat) const
+void ShaderProgram::uniformMatrix2f(GLint location, const glm::mat2& mat) const
 {
   glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-void ShaderProgram::uniform4f(GLuint location, const glm::vec4& vec) const
+void ShaderProgram::uniform4f(GLint location, const glm::vec4& vec) const
 {
   glUniform4fv(location, 1, glm::value_ptr(vec));
 }
 
-void ShaderProgram::uniform3f(GLuint location, const glm::vec3& vec) const
+void ShaderProgram::uniform3f(GLint location, const glm::vec3& vec) const
 {
   glUniform3fv(location, 1, glm::value_ptr(vec));
 }
 
-void ShaderProgram::uniform2f(GLuint location, const glm::vec2& vec) const
+void ShaderProgram::uniform2f(GLint location, const glm::vec2& vec) const
 {
   glUniform2fv(location, 1, glm::value_ptr(vec));
 }
 
-void ShaderProgram::uniform1f(GLuint location, float f) const
+void ShaderProgram::uniform1f(GLint location, float f) const
 {
   glUniform1f(location, f);
 }

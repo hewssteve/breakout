@@ -13,16 +13,10 @@ class MovementComponent: public Component
     MovementComponent();
     virtual ~MovementComponent();
 
-    const glm::vec3& getVelocity(void) const;
-    const glm::vec3& getAcceleration(void) const;
+    glm::vec3 _dx;
+    glm::vec3 _dv;
 
-    void setVelocity(const glm::vec3& velocity);
-    void setAcceleration(const glm::vec3& accel);
 
-  private:
-
-    glm::vec3 _velocity;
-    glm::vec3 _accel;
 
 };
 

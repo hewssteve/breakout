@@ -4,6 +4,9 @@
 #include <vector>
 
 #include "Component.h"
+#include "MeshComponent.h"
+#include "PositionComponent.h"
+#include "MovementComponent.h"
 #include "Entity.h"
 
 class World
@@ -11,12 +14,15 @@ class World
 
   public:
 
+    static unsigned int MAX_ENTITIES;
+
+
     World();
     virtual ~World();
 
     void init(void);
 
-    void addEntity(const Entity& entity);
+    void addEntity();
     void removeEntity();
     
     const std::vector<Entity>& getEntityList(void) const;

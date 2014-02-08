@@ -41,9 +41,7 @@ void RenderSystem::update(World& world, float time, float dt, float alpha)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   
   std::vector<Entity> entlist = world.getEntityList();
-
   std::vector<MeshComponent> meshlist = world.getMeshComponents();
-
 
   glUseProgram(_shaderprogram.getID());
 
@@ -57,13 +55,14 @@ void RenderSystem::update(World& world, float time, float dt, float alpha)
 
     if(mesh_handle != Entity::NO_COMPONENT && pos_handle != Entity::NO_COMPONENT)
     {
-      MeshComponent comp = meshlist[mesh_handle];
-      Mesh mesh = comp.getMesh();
+      MeshComponent* comp = &meshlist[mesh_handle];
+      assert(comp != NULL);
+      Mesh* mesh = comp->getMesh();
 
-      glBindVertexArray(mesh.getVAO().getID());
+      glBindVertexArray(mesh->getVAO().getID());
 
-      GLenum prim = mesh.getPrimitive();
-      GLsizei count = mesh.getIndiceCount();
+      GLenum prim = mesh->getPrimitive();
+      GLsizei count = mesh->getIndiceCount();
 
       glDrawElements(prim, count, GL_UNSIGNED_SHORT, 0);
 
