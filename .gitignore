@@ -14,3 +14,7 @@
 
 # temp files
 .*~
+
+# build folders
+obj/
+bin/

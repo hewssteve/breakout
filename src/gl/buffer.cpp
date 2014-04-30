@@ -1,4 +1,4 @@
-#include "buffer.h"
+#include "gl/buffer.h"
 
 #include <cassert>
 

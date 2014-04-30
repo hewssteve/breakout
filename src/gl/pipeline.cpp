@@ -1,4 +1,4 @@
-#include "pipeline.h"
+#include "gl/pipeline.h"
 
 namespace gl {
 

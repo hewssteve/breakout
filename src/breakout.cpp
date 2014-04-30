@@ -9,17 +9,6 @@
 struct VertexArray {
 
     VertexArray() {}
-    ~VertexArray() {
-      std::cout << "~VertexArray() id: " << id << std::cout;
-      glDeleteVertexArrays(1, &id);
-      if (vertbuf) {
-        delete vertbuf;
-      }
-      if (elembuf) {
-        delete elembuf;
-      }
-      GL_CHECK_ERROR;
-    }
     GLuint id;
     gl::Buffer* vertbuf;
     gl::Buffer* elembuf;
