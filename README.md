@@ -1,2 +1,4 @@
-gl_engine
+breakout
 =========
+
+simple breakout game

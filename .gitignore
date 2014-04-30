@@ -12,8 +12,5 @@
 *.la
 *.a
 
-models/
-obj/
 
-#eclipse stuff
-.cproject
+
