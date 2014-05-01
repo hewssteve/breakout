@@ -10,18 +10,30 @@ OBJ = obj/
 SRC = src/
 INCLUDE = include/
 
+SHADERDIR = shaders/
+
 SOURCES = $(wildcard $(SRC)*.cpp) $(wildcard $(SRC)**/*.cpp)
 HEADERS = $(wildcard $(INCLUDE)*.h) $(wildcard $(INCLUDE)**/*.h)
-OBJECTS = $(SOURCES:.cpp=.o) 
+OBJECTS = $(addprefix $(OBJ), $(notdir $(SOURCES:.cpp=.o)))
 
 EXE = breakout
 
-all: $(TARGET)$(EXE) | $(TARGET)
+all: $(TARGET)$(EXE)
 
-$(TARGET)$(EXE): $(OBJECTS)
+$(TARGET)$(EXE): $(OBJECTS) | $(TARGET)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $(TARGET)$(EXE)
+	cp -r $(SHADERDIR) $(TARGET)$(SHADERDIR)
 
 $(OBJECTS): | $(OBJ)
+
+$(OBJ)%.o: $(SRC)gl/%.cpp $(INCLUDE)gl/%.h
+	$(CXX) -c $< $(CXXFLAGS) -o $@
+	
+$(OBJ)%.o: $(SRC)%.cpp $(INCLUDE)%.h
+	$(CXX) -c $< $(CXXFLAGS) -o $@
+
+$(OBJ)%.o: $(SRC)%.cpp
+	$(CXX) -c $< $(CXXFLAGS) -o $@
 
 $(OBJ):
 	mkdir $(OBJ)
@@ -29,7 +41,7 @@ $(OBJ):
 $(TARGET):
 	mkdir $(TARGET)
 
-.PHONY : test
+.PHONY : print
 test:
 	@echo $(SOURCES)
 	@echo $(OBJECTS)
@@ -38,4 +50,8 @@ test:
 .PHONY : clean
 clean:
 	rm -f $(OBJECTS) $(TARGET)$(EXE)
+
+.PHONY : remove
+remove:
+	rm -rf $(OBJ) $(TARGET)
 
