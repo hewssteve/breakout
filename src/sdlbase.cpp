@@ -4,6 +4,12 @@
 
 #define FIXED_TIMESTEP 0
 
+static bool quit_flag = false;
+
+void quit(void) {
+  quit_flag = true;
+}
+
 int main(int argc, char *argv[]) {
 
   SDL_Window* sdl_window;
@@ -48,10 +54,10 @@ int main(int argc, char *argv[]) {
     std::cout << "init failed, exiting..." << std::endl;
     return EXIT_FAILURE;
   }
+  SDL_SetRelativeMouseMode(SDL_TRUE);
   resize(WIDTH, HEIGHT);
 
   // main loop
-  bool quit = false;
   Uint32 current_time = SDL_GetTicks();
   float t = 0.0f;
 #if FIXED_TIMESTEP
@@ -59,7 +65,7 @@ int main(int argc, char *argv[]) {
   const float DT = 0.05f;
   const float MAX_FRAME_DT = 0.25f;
 #endif
-  while (!quit) {
+  while (!quit_flag) {
     SDL_Event event;
     while(SDL_PollEvent(&event)) {
       switch (event.type) {
@@ -69,7 +75,7 @@ int main(int argc, char *argv[]) {
           }
           break;
         case SDL_QUIT:
-          quit = true;
+          quit_flag = true;
           break;
         default:
           window_event(&event);
@@ -100,6 +106,8 @@ int main(int argc, char *argv[]) {
 #endif
     SDL_GL_SwapWindow(sdl_window);
   }
+  SDL_DestroyWindow(sdl_window);
+  SDL_GL_DeleteContext(gl_context);
   cleanup();
   return EXIT_SUCCESS;
 }

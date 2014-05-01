@@ -27,6 +27,6 @@ void resize(int width, int height);
 
 void window_event(SDL_Event* event);
 
-
+void quit(void);
 
 #endif
