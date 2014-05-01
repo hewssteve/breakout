@@ -30,6 +30,7 @@ struct Shape {
     Shape() {}
     Shape(GLint offset, GLsizei vert_count)
     : offset(offset), vert_count(vert_count) {}
+    
     GLint offset;
     GLsizei vert_count;
 
@@ -79,9 +80,9 @@ struct Brick {
 };
 
 // constants
-static const glm::vec4 BALL_COLOR(0.75f,0.25f,0.0f,1.0f);
-static const glm::vec4 BRICK_COLOR(0.0f,0.75f,0.5f,1.0f);
-static const glm::vec4 PADDLE_COLOR(0.5f,0.5f,0.75f,1.0f);
+static const glm::vec4 BALL_COLOR   (0.75f,0.25f, 0.0f ,1.0f);
+static const glm::vec4 BRICK_COLOR  (0.0f ,0.75f, 0.5f ,1.0f);
+static const glm::vec4 PADDLE_COLOR (0.5f ,0.5f , 0.75f,1.0f);
 
 static const int NUM_SHAPES = 4;
 static Shape __shapes[NUM_SHAPES];
@@ -96,6 +97,8 @@ static Ball* __ball;
 static Paddle* __paddle;
 static World __world(glm::vec2(WORLD_WIDTH, WORLD_HEIGHT));
 static std::vector<Brick> __bricks;
+
+static int mousedx;
 
 // paddle controls
 enum Keys {
@@ -132,9 +135,9 @@ void create_rect(float x_size, float y_size) {
 }
 
 
-// -----------------------------------------------
+// ===============================================
 // helper init functions
-// -----------------------------------------------
+// ===============================================
 
 bool init_shaders(void) {
 
@@ -193,15 +196,16 @@ bool init_world(void) {
   // create shapes
   __shapes[0] = Shape(0, num_verts);
   __shapes[1] = Shape(num_verts, 4);
-
+  
+  Shape* brick_shape = &__shapes[1];
+  Shape* ball_shape = &__shapes[0];
+  
   // create entities
-  __ball = new Ball(glm::vec2(0.0f, 5.0f), BALL_RADIUS, &__shapes[0]);
-  __ball->dx = glm::vec2(4.0f, 5.0f);
+  __ball = new Ball(glm::vec2(0.0f, 5.0f), BALL_RADIUS, ball_shape);
+  __ball->dx = glm::vec2(1.0f, 2.0f);
   //__ball->dv = glm::vec2(0.5f, 0.5f);
 
-  __paddle = new Paddle(glm::vec2(WORLD_WIDTH * 0.5f, 1.0f), &__shapes[1], PADDLE_SPEED);
-
-  Shape* brick_shape = &__shapes[1];
+  __paddle = new Paddle(glm::vec2(__world.bounds.x * 0.5f, 1.0f), brick_shape, PADDLE_SPEED);
 
   __bricks.push_back(Brick(glm::vec2(9.0f, 5.0f), brick_shape));
   __bricks.push_back(Brick(glm::vec2(8.0f, 5.0f), brick_shape));
@@ -231,9 +235,9 @@ bool init_world(void) {
   return true;
 }
 
-// -----------------------------------------------
+// ===============================================
 // render functions
-// -----------------------------------------------
+// ===============================================
 
 void render_shape(const Shape& shape, const glm::vec2& pos, const glm::vec4 & color) {
   glm::mat4 model_mat;
@@ -243,9 +247,9 @@ void render_shape(const Shape& shape, const glm::vec2& pos, const glm::vec4 & co
   glDrawArrays(GL_LINE_LOOP, shape.offset, shape.vert_count);
 }
 
-// -----------------------------------------------
+// ===============================================
 // callbacks
-// -----------------------------------------------
+// ===============================================
 
 bool init(void) {
   init_shaders();
@@ -298,7 +302,7 @@ void update(float t, float dt) {
 
   __ball->pos += __ball->dx * dt;
   //__ball->dx += __ball->dv * dt;
-
+  /*
   float paddle_vel;
   if (__controls[LEFT]) {
     paddle_vel = -__paddle->speed;
@@ -308,7 +312,11 @@ void update(float t, float dt) {
     paddle_vel = 0.0f;
   }
   __paddle->pos.x += paddle_vel * dt;
-
+  */
+  float xpos = (static_cast<float>(mousedx) / (768.0f)) * (__world.bounds.x);
+  __paddle->pos.x = xpos;
+  //mousedx = 0;
+  
   if (__paddle->pos.x < 0.0f) {
     __paddle->pos.x = 0.0f;
   }
@@ -340,7 +348,7 @@ void resize(int width, int height) {
   __proj_mat = glm::ortho(0.0f, __world.bounds.x, 0.0f, __world.bounds.y, -1.0f, 1.0f);
   GL_CHECK_ERROR;
 }
-
+/*
 void key_up(SDL_Keycode code) {
 
   switch(code) {
@@ -366,7 +374,7 @@ void key_down(SDL_Keycode code) {
   }
 
 }
-
+*/
 void key_press(SDL_Keycode code, bool state) {
 
   switch(code) {
@@ -375,6 +383,9 @@ void key_press(SDL_Keycode code, bool state) {
       break;
     case SDLK_RIGHT:
       __controls[RIGHT] = state;
+      break;
+    case SDLK_ESCAPE:
+      quit();
       break;
   }
 
@@ -389,6 +400,10 @@ void window_event(SDL_Event* event) {
     case SDL_KEYDOWN:
       key_press(event->key.keysym.sym, true);
       break;
+    case SDL_MOUSEMOTION:
+      mousedx = event->motion.x;
+      break;
+      
   }
 
 }
