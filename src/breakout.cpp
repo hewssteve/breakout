@@ -25,6 +25,15 @@ struct World {
 
 };
 
+struct Polygon {
+  Polygon() {}
+  Polygon(glm::vec2* points, int num_verts) 
+  :points(points), num_verts(num_verts) {}
+  glm::vec2* points;
+  int num_verts;
+
+};
+
 struct Shape {
 
     Shape() {}
@@ -84,15 +93,14 @@ static const glm::vec4 BALL_COLOR   (0.75f,0.25f, 0.0f ,1.0f);
 static const glm::vec4 BRICK_COLOR  (0.0f ,0.75f, 0.5f ,1.0f);
 static const glm::vec4 PADDLE_COLOR (0.5f ,0.5f , 0.75f,1.0f);
 
-static const int NUM_SHAPES = 4;
-static Shape __shapes[NUM_SHAPES];
-
 static const int WORLD_WIDTH = 10;
 static const int WORLD_HEIGHT = 10;
 
 static const float BALL_RADIUS = 0.125f;
-static const float PADDLE_SPEED = 5.0f;
+static const float PADDLE_SPEED = 15.0f;
 
+// world entities
+static std::vector<Shape> __shapes;
 static Ball* __ball;
 static Paddle* __paddle;
 static World __world(glm::vec2(WORLD_WIDTH, WORLD_HEIGHT));
@@ -109,6 +117,8 @@ enum Keys {
 
 static bool __controls[MAX_CONTROLS];
 
+// opengl data
+
 static VertexArray __vao;
 
 static gl::Shader*    __vert_shader;
@@ -120,7 +130,6 @@ static GLint __proj_mat_uniform;
 static GLint __mat_color_uniform;
 static GLint __mat_intensity_uniform;
 
-
 void sphere_AABB_intersect() {
 
 
@@ -128,12 +137,25 @@ void sphere_AABB_intersect() {
 
 }
 
-void create_rect(float x_size, float y_size) {
-
-
-
+Polygon create_rect(float x_size, float y_size) {
+  glm::vec2* points = new glm::vec2[4];
+  points[0] = glm::vec2(-1.0f * x_size, -1.0f * y_size);
+  points[1] = glm::vec2(1.0f * x_size, -1.0f * y_size);
+  points[2] = glm::vec2(1.0f * x_size, 1.0f * y_size);
+  points[3] = glm::vec2(-1.0f * x_size, 1.0f * y_size);
+  return Polygon(points, 4);
 }
 
+Polygon create_circle(float radius, int segments) {
+  glm::vec2* points = new glm::vec2[segments];
+  float angle = 0;
+  float step = (M_PI * 2) / segments;
+  for (int i = 0; i < segments; ++i) {
+    points[i] = glm::vec2(cosf(angle) * radius, sinf(angle) * radius);
+    angle += step;
+  }
+  return Polygon(points, segments);
+}
 
 // ===============================================
 // helper init functions
@@ -161,8 +183,8 @@ bool init_shaders(void) {
   __pipeline->useProgramStage(GL_VERTEX_SHADER_BIT, __vert_shader->id());
   __pipeline->useProgramStage(GL_FRAGMENT_SHADER_BIT, __frag_shader->id());
   // bind uniforms
-  __proj_mat_uniform = __vert_shader->getUniformLocation("mvp_mat");
-  __mat_color_uniform = __frag_shader->getUniformLocation("mat_color");
+  __proj_mat_uniform      = __vert_shader->getUniformLocation("mvp_mat");
+  __mat_color_uniform     = __frag_shader->getUniformLocation("mat_color");
   __mat_intensity_uniform = __frag_shader->getUniformLocation("mat_intensity");
   // init uniforms
   __frag_shader->uniform1f(__mat_intensity_uniform, 1.0f);
@@ -171,58 +193,32 @@ bool init_shaders(void) {
 }
 
 bool init_world(void) {
-  // sphere
-  const int num_verts = 16;
-  vertex sphere[num_verts];
-  float angle = 0;
-  float step = (M_PI * 2) / num_verts;
-  for (int i = 0; i < num_verts; ++i) {
-    sphere[i].position = glm::vec2(cosf(angle) * BALL_RADIUS, sinf(angle) * BALL_RADIUS);
-    angle += step;
-  }
 
-  // square ( for bricks )
-  vertex rect[4];
-  float rect_x_size = 0.25f;
-  float rect_y_size = 0.25f;
-  rect[0] = glm::vec2(-1.0f * rect_x_size, -1.0f * rect_y_size);
-  rect[1] = glm::vec2(1.0f * rect_x_size, -1.0f * rect_y_size);
-  rect[2] = glm::vec2(1.0f * rect_x_size, 1.0f * rect_y_size);
-  rect[3] = glm::vec2(-1.0f * rect_x_size, 1.0f * rect_y_size);
-
-  // triangle
-  //  vertex triangle[3];
-
-  // create shapes
-  __shapes[0] = Shape(0, num_verts);
-  __shapes[1] = Shape(num_verts, 4);
-  
-  Shape* brick_shape = &__shapes[1];
-  Shape* ball_shape = &__shapes[0];
-  
-  // create entities
-  __ball = new Ball(glm::vec2(0.0f, 5.0f), BALL_RADIUS, ball_shape);
-  __ball->dx = glm::vec2(1.0f, 2.0f);
-  //__ball->dv = glm::vec2(0.5f, 0.5f);
-
-  __paddle = new Paddle(glm::vec2(__world.bounds.x * 0.5f, 1.0f), brick_shape, PADDLE_SPEED);
-
-  __bricks.push_back(Brick(glm::vec2(9.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(8.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(7.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(6.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(5.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(4.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(3.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(2.0f, 5.0f), brick_shape));
-  __bricks.push_back(Brick(glm::vec2(1.0f, 5.0f), brick_shape));
+  // Create polygons to create shapes
+  std::vector<Polygon> polys;
+  polys.push_back(create_rect(0.25f, 0.25f));
+  polys.push_back(create_rect(0.50f, 0.25f));  
+  polys.push_back(create_circle(BALL_RADIUS, 16));
 
   // vertex array creation
-  size_t bufsize = sizeof(sphere) + sizeof(rect);
+  
+  // allocate gl buffer
+  size_t bufsize;
+  size_t vertsize = sizeof(glm::vec2);
+  for(std::vector<Polygon>::iterator i = polys.begin(); i != polys.end(); ++i) {
+    Polygon p = *i;
+    bufsize += p.num_verts * vertsize;
+  }
   __vao.vertbuf = new gl::Buffer(GL_ARRAY_BUFFER, bufsize, GL_STATIC_DRAW);
-  __vao.vertbuf->bufferData(reinterpret_cast<const GLvoid*>(&sphere), 0, sizeof(sphere));
-  __vao.vertbuf->bufferData(reinterpret_cast<const GLvoid*>(&rect), sizeof(sphere), sizeof(rect));
-
+  // fill gl buffer
+  int offset = 0;
+  for(std::vector<Polygon>::iterator i = polys.begin(); i != polys.end(); ++i) {
+     Polygon p = *i;
+     int size = vertsize * p.num_verts;
+    __vao.vertbuf->bufferData(reinterpret_cast<const GLvoid*>(p.points), offset, size);
+     offset += size;
+  }
+  
   glGenVertexArrays(1, &__vao.id);
   GL_CHECK_ERROR;
   glBindVertexArray(__vao.id);
@@ -232,6 +228,31 @@ bool init_world(void) {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
   GL_CHECK_ERROR;
+  
+  // create shapes
+  int vertoffset = 0;
+  for(std::vector<Polygon>::iterator i = polys.begin(); i != polys.end(); ++i) {
+    Polygon p = *i;
+    __shapes.push_back(Shape(vertoffset, p.num_verts));
+    vertoffset += p.num_verts;
+  }
+  Shape* brick_shape = &__shapes[0];
+  Shape* paddle_shape = &__shapes[1];
+  Shape* ball_shape = &__shapes[2];
+  // create entities
+  
+  glm::vec2 ball_init_pos(5.0f, 1.0f);
+  glm::vec2 ball_speed(5.0f, 5.0f);
+  __ball = new Ball(ball_speed, BALL_RADIUS, ball_shape);
+  __paddle = new Paddle(glm::vec2(__world.bounds.x * 0.5f, 1.0f), paddle_shape, PADDLE_SPEED);
+  __ball->dx = ball_speed;
+  //__ball->dv = glm::vec2(0.5f, 0.5f);
+  
+  float x_pos = 1.0f;
+  for(int i = 0; i < 9; ++i) {
+    __bricks.push_back(Brick(glm::vec2(x_pos, 5.0f), brick_shape));
+    x_pos += 1.0f;
+  }
   return true;
 }
 
@@ -276,6 +297,7 @@ void render(float alpha) {
 
 void update(float t, float dt) {
 
+  // bounce ball off walls
   if(__ball->pos.x < 0.0f + __ball->radius) {
     __ball->pos.x -= 2.0f * (__ball->pos.x - __ball->radius);
     __ball->dx = glm::reflect(__ball->dx, glm::vec2(1.0f, 0.0f));
@@ -299,9 +321,10 @@ void update(float t, float dt) {
     __ball->dx = glm::reflect(__ball->dx, glm::vec2(0.0f, 1.0f));
     //__ball->dv = glm::reflect(__ball->dv, glm::vec2(0.0f, 1.0f));
   }
-
+  // integrate
   __ball->pos += __ball->dx * dt;
   //__ball->dx += __ball->dv * dt;
+  
   /*
   float paddle_vel;
   if (__controls[LEFT]) {
@@ -323,8 +346,8 @@ void update(float t, float dt) {
   if (__paddle->pos.x > __world.bounds.x) {
     __paddle->pos.x = __world.bounds.x;
   }
-
-  if (__ball->pos.x > __paddle->pos.x - 0.5f * 0.5f && __ball->pos.x < __paddle->pos.x + 0.5f * 0.5f
+  float paddle_xsize = 1.0f;
+  if (__ball->pos.x > __paddle->pos.x - paddle_xsize * 0.5f && __ball->pos.x < __paddle->pos.x + paddle_xsize * 0.5f
       && __ball->pos.y < __paddle->pos.y + __ball->radius && __ball->pos.y > __paddle->pos.y) {
     __ball->pos.y += 2.0f * (__paddle->pos.y + __ball->radius - __ball->pos.y);
     glm::vec2 norm = glm::normalize(glm::vec2(0.0f, 1.0f));
