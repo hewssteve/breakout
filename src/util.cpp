@@ -3,25 +3,6 @@
 
 #include <fstream>
 
-bool compile_shader(GLuint* shader, GLenum type, std::string source) {
-  const GLchar* src = source.c_str();
-  *shader = glCreateShaderProgramv(GL_VERTEX_SHADER, 1, &src);
-  GL_CHECK_ERROR;
-  GLint link_status;
-  glGetProgramiv(*shader, GL_LINK_STATUS, &link_status);
-  if (link_status == GL_FALSE) {
-    GLint info_log_len;
-    glGetProgramiv(*shader, GL_INFO_LOG_LENGTH, &info_log_len);
-    GLchar* info_log = new GLchar[info_log_len];
-    glGetProgramInfoLog(*shader, info_log_len, NULL, info_log);
-    std::string log = info_log;
-    std::cout << log << std::endl;
-    delete info_log;
-    return false;
-  }
-  return true;
-}
-
 std::string string_from_file(const std::string& filename) {
   std::ifstream in(filename.c_str(), std::ios::in);
   if (!in.is_open()) {

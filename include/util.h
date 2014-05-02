@@ -14,8 +14,6 @@ struct vertex {
     glm::vec2 position;
 };
 
-bool compile_shader(GLuint* shader, GLenum type, std::string source);
-
 std::string string_from_file(const std::string& filename);
 
 #define GL_CHECK_ERROR gl_checkError(__LINE__, __FILE__)
