@@ -17,7 +17,6 @@ Buffer::Buffer(GLenum target, GLsizeiptr size, GLenum usage) :
 }
 
 Buffer::~Buffer() {
-  std::cout << "Buffer::~Buffer() id: " << id_ << std::endl;
   glDeleteBuffers(1, &id_);
   GL_CHECK_ERROR;
 }

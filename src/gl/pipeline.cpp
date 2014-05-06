@@ -8,7 +8,6 @@ Pipeline::Pipeline() {
 }
 
 Pipeline::~Pipeline() {
-  std::cout << "Pipeline::~Pipeline() id: " << id_ << std::endl;
   glDeleteProgramPipelines(1, &id_);
   GL_CHECK_ERROR;
 }

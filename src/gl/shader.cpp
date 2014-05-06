@@ -39,7 +39,6 @@ Shader::Shader(GLenum type, const std::string& source) {
 }
 
 Shader::~Shader() {
-  std::cout << "Shader::~Shader() id: " << id_ << std::endl;
   glDeleteProgram(id_);
   GL_CHECK_ERROR;
 }

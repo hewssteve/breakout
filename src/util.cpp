@@ -2,11 +2,11 @@
 #include "util.h"
 
 #include <fstream>
-
+// TODO manage errors more meaningfully
 std::string string_from_file(const std::string& filename) {
   std::ifstream in(filename.c_str(), std::ios::in);
   if (!in.is_open()) {
-    std::cout << "unable to open \'" << filename << "\'." << std::endl;
+	fprintf(stderr, "unable to open /'%s/'\n", filename.c_str());
     return "";
   }
   std::string contents;
@@ -47,7 +47,6 @@ void gl_checkError(int line, const std::string& where) {
         errorstr = "STACK OVERFLOW";
         break;
     };
-    std::cout << "OpenGL error : " << errorstr;
-    std::cout << "  at line " << line << " in " << where << std::endl;
+    fprintf(stderr, "OpenGL error: %s at line %d in %s\n", errorstr.c_str(), line, where.c_str());
   }
 }

@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
   const int MAJOR_VERSION = 4;
   const int MINOR_VERSION = 1;
 
-  const int WIDTH = 512 * 1.5;
-  const int HEIGHT = 512 * 1.5;
+  const int WIDTH = 768;
+  const int HEIGHT = 768;
 
   if (SDL_Init(sdl_flags) > 0) {
     return EXIT_FAILURE;
@@ -47,12 +47,12 @@ int main(int argc, char *argv[]) {
   glewExperimental = GL_TRUE;
   GLenum error = glewInit();
   if (error != GLEW_OK) {
-    return EXIT_FAILURE;
+    quit_flag = true;
   }
   GL_CHECK_ERROR;
   if(!init()) {
-    std::cout << "init failed, exiting..." << std::endl;
-    return EXIT_FAILURE;
+    fprintf(stderr, "INIT FAILED, EXITING\n");
+    quit_flag = true;
   }
   SDL_SetRelativeMouseMode(SDL_TRUE);
   resize(WIDTH, HEIGHT);
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
   float t = 0.0f;
 #if FIXED_TIMESTEP
   float accumulator = 0.0f;
-  const float DT = 0.05f;
+  const float DT = 1.0f/20.0f;
   const float MAX_FRAME_DT = 0.25f;
 #endif
   while (!quit_flag) {

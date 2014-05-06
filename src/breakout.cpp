@@ -222,7 +222,6 @@ void collision_wall(Ball& ball, const World& world) {
 
 void collision_reaction(Ball& ball, Brick& brick) {
 
-  
 
 }
 
@@ -235,10 +234,8 @@ void collision_bruteForce(const std::vector<Brick>& bricks, Ball& ball, World& w
       collision_reaction(ball, brick);
       // move ball again
       integrate(ball.pos, ball.dx, ball.dv, dt);
-      
       // check wall collisions
       collision_wall(ball, world);
-      
     }
   }
 }
@@ -255,12 +252,10 @@ bool init_shaders(void) {
   __frag_shader = new gl::Shader(GL_FRAGMENT_SHADER, fragsource);
 
   if (!__vert_shader->link_flag()) {
-    std::cout << "Shader compile error: ";
-    std::cout << __vert_shader->link_log() << std::endl;
+	fprintf(stderr, "Shader compile error: %s", __vert_shader->link_log().c_str());
   }
   if (!__frag_shader->link_flag()) {
-    std::cout << "Shader compile error: ";
-    std::cout << __frag_shader->link_log() << std::endl;
+	fprintf(stderr, "Shader compile error: %s", __frag_shader->link_log().c_str());
   }
   __pipeline = new gl::Pipeline();
   __pipeline->useProgramStage(GL_VERTEX_SHADER_BIT, __vert_shader->id());
@@ -362,7 +357,11 @@ void render_shape(const Shape& shape, const glm::vec2& pos, const glm::vec4& col
 
 bool init(void) {
   init_gl();
-  init_shaders();
+
+  if(!init_shaders()) {
+    fprintf(stderr, "Shader init failed\n");
+  }
+
   init_world();
   return true;
 }
