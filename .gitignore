@@ -18,3 +18,8 @@
 # build folders
 obj/
 bin/
+
+#eclipse junk
+.project
+.cproject
+.settings/
