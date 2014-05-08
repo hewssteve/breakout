@@ -1,6 +1,6 @@
 
-#include "sdlbase.h"
-#include "util.h"
+#include "breakout/sdlbase.h"
+#include "breakout/util.h"
 
 #define FIXED_TIMESTEP 0
 
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
         default:
           window_event(&event);
           break;
-      };
+      }
     }
     const Uint32 new_time = SDL_GetTicks();
     float frame_time = (new_time - current_time) * 0.001f;

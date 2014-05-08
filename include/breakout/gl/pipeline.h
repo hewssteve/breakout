@@ -1,8 +1,7 @@
 #ifndef GL_PIPELINE_H_
 #define GL_PIPELINE_H_
 
-#include "util.h"
-#include "gl/shader.h"
+#include "breakout/util.h"
 
 namespace gl {
 

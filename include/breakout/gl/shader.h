@@ -1,7 +1,7 @@
 #ifndef GL_SHADER_H_
 #define GL_SHADER_H_
 
-#include "util.h"
+#include "breakout/util.h"
 
 namespace gl {
 

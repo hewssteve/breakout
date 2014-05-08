@@ -1,12 +1,11 @@
-
-#include "util.h"
+#include "breakout/util.h"
 
 #include <fstream>
 // TODO manage errors more meaningfully
 std::string string_from_file(const std::string& filename) {
   std::ifstream in(filename.c_str(), std::ios::in);
   if (!in.is_open()) {
-	fprintf(stderr, "unable to open /'%s/'\n", filename.c_str());
+    fprintf(stderr, "unable to open '%s'\n", filename.c_str());
     return "";
   }
   std::string contents;

@@ -1,10 +1,10 @@
 
-#include "sdlbase.h"
-#include "util.h"
+#include "breakout/sdlbase.h"
+#include "breakout/util.h"
 
-#include "gl/buffer.h"
-#include "gl/shader.h"
-#include "gl/pipeline.h"
+#include "breakout/gl/buffer.h"
+#include "breakout/gl/shader.h"
+#include "breakout/gl/pipeline.h"
 
 struct VertexArray {
 
@@ -101,27 +101,6 @@ struct Brick {
   Shape* shape;
 
 };
-
-// constants
-static const glm::vec4 BALL_COLOR   (0.75f,0.25f, 0.0f ,1.0f);
-static const glm::vec4 BRICK_COLOR  (0.0f ,0.75f, 0.5f ,1.0f);
-static const glm::vec4 PADDLE_COLOR (0.5f ,0.5f , 0.75f,1.0f);
-
-static const int WORLD_WIDTH = 10;
-static const int WORLD_HEIGHT = 10;
-
-static const float BALL_RADIUS = 0.125f;
-static const float PADDLE_SPEED = 15.0f;
-
-// world entities
-static std::vector<Shape> __shapes;
-static Ball* __ball;
-static Paddle* __paddle;
-static World __world(glm::vec2(WORLD_WIDTH, WORLD_HEIGHT));
-static std::vector<Brick> __bricks;
-
-static int mousedx;
-
 // paddle controls
 enum Keys {
   LEFT = 0,
@@ -129,23 +108,46 @@ enum Keys {
   MAX_CONTROLS
 };
 
-static bool mouse1down;
-static bool mouse2down;
+namespace {
 
-static bool __controls[MAX_CONTROLS];
+// constants
+const glm::vec4 BALL_COLOR   (0.75f,0.25f, 0.0f ,1.0f);
+const glm::vec4 BRICK_COLOR  (0.0f ,0.75f, 0.5f ,1.0f);
+const glm::vec4 PADDLE_COLOR (0.5f ,0.5f , 0.75f,1.0f);
+
+const int WORLD_WIDTH = 10;
+const int WORLD_HEIGHT = 10;
+
+const float BALL_RADIUS = 0.125f;
+const float PADDLE_SPEED = 15.0f;
+
+// world entities
+std::vector<Shape> __shapes;
+Ball* __ball;
+Paddle* __paddle;
+World __world(glm::vec2(WORLD_WIDTH, WORLD_HEIGHT));
+std::vector<Brick> __bricks;
+
+int mousedx;
+
+bool mouse1down;
+bool mouse2down;
+
+bool __controls[MAX_CONTROLS];
 
 // opengl data
+VertexArray __vao;
 
-static VertexArray __vao;
+gl::Shader*    __vert_shader;
+gl::Shader*    __frag_shader;
+gl::Pipeline*  __pipeline;
 
-static gl::Shader*    __vert_shader;
-static gl::Shader*    __frag_shader;
-static gl::Pipeline*  __pipeline;
+glm::mat4 __proj_mat;
+GLint __proj_mat_uniform;
+GLint __mat_color_uniform;
+GLint __mat_intensity_uniform;
 
-static glm::mat4 __proj_mat;
-static GLint __proj_mat_uniform;
-static GLint __mat_color_uniform;
-static GLint __mat_intensity_uniform;
+}
 
 Polygon create_rect(float x_size, float y_size) {
   glm::vec2* points = new glm::vec2[4];

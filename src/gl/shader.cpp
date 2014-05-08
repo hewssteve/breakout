@@ -1,4 +1,4 @@
-#include "gl/shader.h"
+#include "breakout/gl/shader.h"
 
 #include <cassert>
 

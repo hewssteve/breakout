@@ -1,7 +1,7 @@
 #ifndef GL_BUFFER_H_
 #define GL_BUFFER_H_
 
-#include "util.h"
+#include "breakout/util.h"
 
 namespace gl {
 
