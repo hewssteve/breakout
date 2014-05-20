@@ -1,17 +1,17 @@
-
 #include "breakout/sdlbase.h"
-#include "breakout/util.h"
+#include "breakout/gl/glutil.h"
 
 #define FIXED_TIMESTEP 0
 
 static bool quit_flag = false;
 
-void quit(void) {
+void quit(void)
+{
   quit_flag = true;
 }
 
-int main(int argc, char *argv[]) {
-
+int main(int argc, char *argv[])
+{
   SDL_Window* sdl_window;
   SDL_GLContext gl_context;
 
@@ -26,7 +26,8 @@ int main(int argc, char *argv[]) {
   const int WIDTH = 768;
   const int HEIGHT = 768;
 
-  if (SDL_Init(sdl_flags) > 0) {
+  if (SDL_Init(sdl_flags) > 0)
+  {
     return EXIT_FAILURE;
   }
 
@@ -37,8 +38,9 @@ int main(int argc, char *argv[]) {
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
   sdl_window = SDL_CreateWindow(caption.c_str(), SDL_WINDOWPOS_CENTERED,
-                                SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, window_flags);
-  if (sdl_window == NULL) {
+  SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, window_flags);
+  if (sdl_window == NULL)
+  {
     return EXIT_FAILURE;
   }
 
@@ -46,11 +48,13 @@ int main(int argc, char *argv[]) {
 
   glewExperimental = GL_TRUE;
   GLenum error = glewInit();
-  if (error != GLEW_OK) {
+  if (error != GLEW_OK)
+  {
     quit_flag = true;
   }
   GL_CHECK_ERROR;
-  if(!init()) {
+  if (!init())
+  {
     fprintf(stderr, "INIT FAILED, EXITING\n");
     quit_flag = true;
   }
@@ -62,15 +66,19 @@ int main(int argc, char *argv[]) {
   float t = 0.0f;
 #if FIXED_TIMESTEP
   float accumulator = 0.0f;
-  const float DT = 1.0f/20.0f;
-  const float MAX_FRAME_DT = 0.25f;
+  const float DT = 1.0f/25.0f;
+  const float MAX_FRAME_DT = 0.1f;
 #endif
-  while (!quit_flag) {
+  while (!quit_flag)
+  {
     SDL_Event event;
-    while(SDL_PollEvent(&event)) {
-      switch (event.type) {
+    while (SDL_PollEvent(&event))
+    {
+      switch (event.type)
+      {
         case SDL_WINDOWEVENT:
-          if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+          if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+          {
             resize(event.window.data1, event.window.data2);
           }
           break;
@@ -86,12 +94,14 @@ int main(int argc, char *argv[]) {
     float frame_time = (new_time - current_time) * 0.001f;
     current_time = new_time;
 #if FIXED_TIMESTEP
-    if (frame_time > MAX_FRAME_DT) {
+    if (frame_time > MAX_FRAME_DT)
+    {
       frame_time = MAX_FRAME_DT;
     }
     accumulator += frame_time;
 
-    while (accumulator >= DT) {
+    while (accumulator >= DT)
+    {
       accumulator -= DT;
       update(t, DT);
       t += DT;

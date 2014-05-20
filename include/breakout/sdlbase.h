@@ -1,19 +1,7 @@
-
-#ifndef SDLBASE_H_
-#define SDLBASE_H_
+#ifndef BREAKOUT_SDLBASE_H_
+#define BREAKOUT_SDLBASE_H_
 
 #include <SDL2/SDL.h>
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include <string>
-#include <vector>
-#include <cmath>
-#include <iostream>
-#include <cstdio>
 
 bool init(void);
 
@@ -29,4 +17,4 @@ void window_event(SDL_Event* event);
 
 void quit(void);
 
-#endif
+#endif // BREAKOUT_SDLBASE_H_

@@ -1,7 +1,7 @@
 CXX = g++
 DEBUG = -g
 
-CXXFLAGS = -ansi -Wall -pedantic $(DEBUG) -I include/
+CXXFLAGS = -ansi -Wall -pedantic -O3 $(DEBUG) -I include/
 LDFLAGS = -lSDL2 -lGL -lGLEW
 
 TARGET = bin
@@ -10,24 +10,16 @@ OBJ = obj
 SRC = src
 INCLUDE = include/breakout
 
-SHADERDIR = shaders
-SHADERS = $(wildcard $(SHADERDIR)/*.vert) $(wildcard $(SHADERDIR)/*.frag)
-
 SOURCES = $(wildcard $(SRC)/*.cpp) $(wildcard $(SRC)/**/*.cpp)
 HEADERS = $(wildcard $(INCLUDE)/*.h) $(wildcard $(INCLUDE)/**/*.h)
 OBJECTS = $(addprefix $(OBJ)/, $(notdir $(SOURCES:.cpp=.o)))
 
 EXE = breakout
 
-all: $(TARGET)/$(EXE) $(TARGET)/$(SHADERDIR)
+all: $(TARGET)/$(EXE)
 
 $(TARGET)/$(EXE): $(OBJECTS) | $(TARGET)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $(TARGET)/$(EXE)
-
-$(TARGET)/$(SHADERDIR) : $(SHADERS)
-	@echo "copying shaders to bin dir..."
-	mkdir -p $(TARGET)/$(SHADERDIR)
-	cp $(SHADERS) $(TARGET)/$(SHADERDIR)
 
 $(OBJECTS): | $(OBJ)
 
@@ -39,10 +31,7 @@ $(OBJ)/%.o: $(SRC)/%.cpp $(INCLUDE)/%.h
 
 $(OBJ)/%.o: $(SRC)/%.cpp
 	$(CXX) -c $< $(CXXFLAGS) -o $@
-	
-$(SHADERDIR):
-	mkdir $(TARGET)/$(SHADERDIR)
-	
+
 $(OBJ):
 	mkdir $(OBJ)
 
@@ -54,7 +43,6 @@ print:
 	@echo "sources :" $(SOURCES)
 	@echo "objects :" $(OBJECTS)
 	@echo "headers :" $(HEADERS)
-	@echo "shaders :" $(SHADERS)
 
 .PHONY : clean
 clean:
