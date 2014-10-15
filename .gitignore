@@ -20,13 +20,5 @@ obj/
 bin/
 
 #eclipse junk
-.project
-.cproject
-.settings/
-/nbproject/private/private.xml
-/nbproject/project.xml
-/nbproject/private/launcher.properties
-/nbproject/configurations.xml
-/nbproject/private/Default.properties
-/nbproject/private/configurations.xml
 /Debug/
+/Release/
