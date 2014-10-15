@@ -1,8 +1,8 @@
 CXX = g++
 DEBUG = -g
 
-CXXFLAGS = -ansi -Wall -pedantic -O3 $(DEBUG) -I include/
-LDFLAGS = -lSDL2 -lGL -lGLEW
+CXXFLAGS = -m32 -ansi -Wall -pedantic -O3 $(DEBUG) `sdl2-config --cflags` -I include/
+LDFLAGS = `sdl2-config --libs` -lSDL2_image
 
 TARGET = bin
 OBJ = obj
@@ -14,18 +14,17 @@ SOURCES = $(wildcard $(SRC)/*.cpp) $(wildcard $(SRC)/**/*.cpp)
 HEADERS = $(wildcard $(INCLUDE)/*.h) $(wildcard $(INCLUDE)/**/*.h)
 OBJECTS = $(addprefix $(OBJ)/, $(notdir $(SOURCES:.cpp=.o)))
 
+ICON = res/my.res
+
 EXE = breakout
 
 all: $(TARGET)/$(EXE)
 
 $(TARGET)/$(EXE): $(OBJECTS) | $(TARGET)
-	$(CXX) $(OBJECTS) $(LDFLAGS) -o $(TARGET)/$(EXE)
+	$(CXX) $(OBJECTS) $(LDFLAGS) -o $(TARGET)/$(EXE) $(ICON)
 
 $(OBJECTS): | $(OBJ)
 
-$(OBJ)/%.o: $(SRC)/gl/%.cpp $(INCLUDE)/gl/%.h
-	$(CXX) -c $< $(CXXFLAGS) -o $@
-	
 $(OBJ)/%.o: $(SRC)/%.cpp $(INCLUDE)/%.h
 	$(CXX) -c $< $(CXXFLAGS) -o $@
 

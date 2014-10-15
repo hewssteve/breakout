@@ -3,63 +3,30 @@
 
 #include "breakout/util.h"
 
-enum CompHandle
-{
-  POSITION = 0,
-  MOVEMENT,
-  RENDER,
-  COLLISION,
-  DISTINCT_COMPONENTS
-};
+#define MAX_ENTITY 10
 
-struct entity
-{
-    unsigned int id;
-    int comp_handles[DISTINCT_COMPONENTS];
-};
-
-struct position_t
-{
-    glm::vec2 pos;
-};
-
-struct movement_t
-{
-    glm::vec2 dx;
-    glm::vec2 dv;
-};
-
-struct render_t
-{
-    // pointer to render object
-};
-
-struct collision_t
-{
-
-};
-
-class Scene
+class Scene 
 {
 
   public:
 
     Scene();
 
-    // update all game objects in scene
+    void init(int width, int height);
+    
     void update(float t, float dt);
-    // TODO pass information on how to create entity
+    
     void addEntity();
 
     void removeEntity(unsigned int id);
 
   private:
 
-    std::vector<entity> entlist_;
-
-    std::vector<position_t> ent_position_list_;
-    std::vector<movement_t> ent_movement_list_;
-
+    glm::vec2 world_bounds;
+    
+    glm::vec2 position_list[MAX_ENTITY];
+    glm::vec2 velocity_list[MAX_ENTITY];
+    
     DISALLOW_COPY_AND_ASSIGN(Scene);
 
 };
